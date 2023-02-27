@@ -1,3 +1,11 @@
+* {
+  cursor: none;
+}
+
+body {
+  font-family: "TitilliumWeb";
+}
+
 .App {
   text-align: center;
 }
@@ -36,3 +44,86 @@
     transform: rotate(360deg);
   }
 }
+
+.hv-box {
+  background-image: linear-gradient(
+    to left,
+    rgb(33, 114, 221),
+    rgb(255, 255, 255, 0)
+  );
+}
+
+.type-icon:hover {
+  scale: 1.1;
+}
+
+.end,
+.timer {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 50px;
+}
+
+.timer-wrapper {
+  display: flex;
+  scale: 0.5;
+  justify-content: center;
+}
+
+.timer {
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text {
+  color: #aaa;
+}
+
+.value {
+  font-size: 40px;
+}
+
+.info {
+  max-width: 300px;
+  margin: 40px auto 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+.circle {
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  flex-flow: row;
+  align-content: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  background-color: #1e91d6;
+  border-radius: 200px;
+  pointer-events: none;
+  background-color: rgba(201, 76, 76, 0.3);
+  text-align: center;
+  font-size: 16px;
+}
+
+.cursorText {
+  flex: auto;
+  font-size: inherit;
+  pointer-events: none;
+  margin: auto;
+}
+
+.contact {
+  cursor: none;
+}
+
+.entryText {
+  padding-top: 70px;
+  font-size: 20px;
+}
+
+/* .circle{
+  mix-blend-mode:difference
+} */
