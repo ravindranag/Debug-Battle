@@ -25,6 +25,9 @@ export default function CodeEditor() {
   const [isHovering, setHover] = useState(false);
   const [open, setOpen] = React.useState(false);
 
+  const heros = ["ant.png"];
+  const villian = [];
+
   const handleTooltipClose = () => {
     setOpen(false);
   };

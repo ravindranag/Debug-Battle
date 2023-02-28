@@ -137,18 +137,20 @@ export default function Entry() {
           }}
         >
           {type && (
-            <img style={{ paddingLeft: "140px" }} src={imgSrc} alt="shirt" />
-          )}
-          {type && (
             <span
               style={{
                 paddingTop: "70px",
-                position: "absolute",
+                paddingInlineStart: "150px",
+                width: "500px",
+                position: "fixed",
                 fontWeight: "500",
               }}
             >
-              ready?
+              are you ready?
             </span>
+          )}
+          {type && (
+            <img style={{ paddingLeft: "140px" }} src={imgSrc} alt="shirt" />
           )}
         </motion.div>
 

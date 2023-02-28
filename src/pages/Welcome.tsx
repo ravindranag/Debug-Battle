@@ -146,7 +146,16 @@ export default function Welcome() {
         >
           {type && <img src={imgSrc} alt="shirt" />}
           {type && (
-            <span style={{ width: "70px" }} className="entryText">
+            <span
+              style={{
+                width: "770px",
+                paddingTop: "20px",
+                paddingLeft: "20px",
+                color: "#fff",
+                fontWeight: "500",
+              }}
+              className="entryText"
+            >
               {cursorText}
             </span>
           )}
@@ -177,7 +186,8 @@ export default function Welcome() {
             direction={"row"}
             justifyContent="center"
             alignItems={"center"}
-            gap="100px"
+            gap="210px"
+            marginRight={"50px"}
           >
             <motion.div
               layout
@@ -193,7 +203,9 @@ export default function Welcome() {
                 navigationHero("#1e91d6");
               }}
               className="villian"
-            ></motion.div>
+            >
+              <img src="heroes.jpg" alt="" />
+            </motion.div>
 
             <motion.div
               layout
@@ -209,7 +221,9 @@ export default function Welcome() {
               }}
               data-isBlueOpen={isBlueOpen}
               className="hero"
-            ></motion.div>
+            >
+              <img width={"900px"} src="villians.jpg" alt="" />
+            </motion.div>
           </Stack>
         </Stack>
       </div>
