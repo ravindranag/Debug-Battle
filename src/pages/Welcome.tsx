@@ -1,7 +1,6 @@
 import React from "react";
 import { Stack } from "@mui/system";
 import { Typography } from "@mui/material";
-import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useMouse from "@react-hook/mouse-position";
@@ -10,10 +9,13 @@ import AnimatedPage from "../components/AnimatedPage";
 
 export default function Welcome() {
   const navigate = useNavigate();
-  const [cursorText, setCursorText] = useState("");
   const [Variant, setCursorVariant] = useState("default");
-  const [shield, setShield] = useState(false);
+  const [type, setType] = useState(false);
+  const [imgSrc, setImgSrc] = useState("");
   const [isHovering, setHover] = useState(false);
+  const [isRedOpen, setIsRedOpen] = useState(false);
+  const [isBlueOpen, setIsBlueOpen] = useState(false);
+  const [cursorText, setCursorText] = useState("");
 
   const ref = React.useRef(null);
   const mouse = useMouse(ref, {
@@ -53,7 +55,7 @@ export default function Welcome() {
       x: mouseXPosition - 32,
       y: mouseYPosition - 32,
     },
-    contact: {
+    heroguy: {
       opacity: 1,
       backgroundColor: "rgba(255, 255, 255, 0)",
       color: "#000",
@@ -72,21 +74,55 @@ export default function Welcome() {
 
   function titleLeave(event: any) {
     setHover(!isHovering);
-    setCursorText("");
+
     setCursorVariant("default");
   }
 
-  function arenaEntry(event: any) {
-    setCursorText("");
-    setCursorVariant("contact");
-    setShield(!shield);
+  function heroArenaEntry(event: any) {
+    setImgSrc("redskull.png");
+    setCursorText("Time to destroy☠️");
+    setCursorVariant("heroguy");
+    setType(!type);
   }
 
-  function arenaLeave(event: any) {
-    setCursorText("");
+  function heroArenaLeave(event: any) {
+    setImgSrc("");
     setCursorVariant("default");
-    setShield(!shield);
+    setType(!type);
   }
+
+  function villianArenaEntry(event: any) {
+    setImgSrc("shield.png");
+    setCursorText("Ready to save the day🥊");
+    setCursorVariant("heroguy");
+    setType(!type);
+  }
+
+  function villianArenaLeave(event: any) {
+    setImgSrc("");
+    setCursorVariant("default");
+    setType(!type);
+  }
+
+  const navigationHero = (color) => {
+    navigate("/editor", {
+      state: {
+        Type: "Hero",
+        color: color,
+        grad: "linear-gradient(to left,rgb(33, 114, 221),rgb(255, 255, 255, 0))",
+      },
+    });
+  };
+
+  const navigationVillian = (color) => {
+    navigate("/editor", {
+      state: {
+        Type: "Villian",
+        color: color,
+        grad: "linear-gradient(to left, rgb(230, 26, 26),rgb(255, 255, 255, 0))",
+      },
+    });
+  };
 
   const spring = {
     type: "spring",
@@ -108,8 +144,12 @@ export default function Welcome() {
             height: "30px",
           }}
         >
-          {shield && <img src={"shield.png"} alt="shirt" />}
-          {shield && <span className="entryText">Enter the arena!</span>}
+          {type && <img src={imgSrc} alt="shirt" />}
+          {type && (
+            <span style={{ width: "70px" }} className="entryText">
+              {cursorText}
+            </span>
+          )}
         </motion.div>
 
         <Stack
@@ -127,11 +167,50 @@ export default function Welcome() {
             Welcome to the Arena
           </Typography>
 
-          <div onMouseEnter={arenaEntry} onMouseLeave={arenaLeave}>
+          {/* <div onMouseEnter={arenaEntry} onMouseLeave={arenaLeave}>
             <Button onClick={() => navigate("/editor")} variant="contained">
               Enter
             </Button>
-          </div>
+          </div> */}
+
+          <Stack
+            direction={"row"}
+            justifyContent="center"
+            alignItems={"center"}
+            gap="100px"
+          >
+            <motion.div
+              layout
+              onMouseEnter={villianArenaEntry}
+              onMouseLeave={villianArenaLeave}
+              whileHover={{
+                scale: 1.1,
+              }}
+              transition={{ duration: 0.5 }}
+              data-isRedOpen={isRedOpen}
+              onClick={() => {
+                setIsRedOpen(!isRedOpen);
+                navigationHero("#1e91d6");
+              }}
+              className="villian"
+            ></motion.div>
+
+            <motion.div
+              layout
+              onMouseEnter={heroArenaEntry}
+              onMouseLeave={heroArenaLeave}
+              whileHover={{
+                scale: 1.1,
+              }}
+              transition={{ duration: 0.5 }}
+              onClick={() => {
+                setIsBlueOpen(!isBlueOpen);
+                navigationVillian("#FF0000");
+              }}
+              data-isBlueOpen={isBlueOpen}
+              className="hero"
+            ></motion.div>
+          </Stack>
         </Stack>
       </div>
     </AnimatedPage>

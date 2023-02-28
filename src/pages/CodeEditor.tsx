@@ -7,12 +7,16 @@ import SideDrawer from "../components/SideDrawer";
 import { Typography } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { motion } from "framer-motion";
-import Circle from "../components/Circle";
 import useMouse from "@react-hook/mouse-position";
-import Button from "@mui/material/Button";
+import { useLocation } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import AnimatedPage from "../components/AnimatedPage";
+import Countdown from "react-countdown";
+
+import ParticleBackground from "../particle";
+// import type { Container, Engine } from "tsparticles-engine";
+// import { loadFull } from "tsparticles"
 
 export default function CodeEditor() {
   const [cursorText, setCursorText] = useState("");
@@ -79,6 +83,13 @@ export default function CodeEditor() {
     },
   };
 
+  const [message, setMessage] = useState("");
+  const handleChange = (value) => {
+    setMessage(value);
+
+    console.log(message);
+  };
+
   const spring = {
     type: "spring",
     stiffness: 500,
@@ -143,9 +154,32 @@ export default function CodeEditor() {
     }
   };
 
+  //   const particlesInit = useCallback(async (engine: Engine) => {
+  //     console.log(engine);
+
+  //     // you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
+  //     // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+  //     // starting from v2 you can add only the features you need reducing the bundle size
+  //     await loadFull(engine);
+  // }, []);
+
+  // const particlesLoaded = useCallback(async (container: Container | undefined) => {
+  //     await console.log(container);
+  // }, []);
+
+  const { state } = useLocation();
+  const { Type, color, grad } = state;
+
+  //  console.log(Type)
+  // console.log(color)
+  // console.log(grad)
   return (
     <AnimatedPage>
-      <div className="editor-main-body" ref={ref}>
+      <div className="editor-main-body" id="editor-main-body" ref={ref}>
+        {/* <Particles id="tsparticles" url="http://foo.bar/particles.json"  /> */}
+        {/* <div className="particle">
+      <ParticleBackground></ParticleBackground>
+      </div> */}
         <motion.div
           variants={variants}
           className="circle"
@@ -171,10 +205,20 @@ export default function CodeEditor() {
               ]}
               className="hv-box"
             >
-              <Stack direction="row" sx={[{ height: "90px" }]}>
+              <Stack
+                direction="row"
+                sx={[
+                  { height: "90px" },
+                  {
+                    backgroundImage: grad,
+                  },
+                  // ,{
+                  //   color:color
+                  // }
+                ]}
+              >
                 <Stack
                   sx={{ width: 1 / 2 }}
-                  border={1}
                   justifyContent={"center"}
                   alignItems="start"
                 >
@@ -217,22 +261,16 @@ export default function CodeEditor() {
                 </Stack>
                 <Stack
                   sx={{ width: 1 / 2 }}
-                  border={1}
                   justifyContent={"center"}
                   alignItems="center"
                 >
-                  {/* <Countdown
-    date={Date.now() + 60000}
-    renderer={renderer}
-    
-  /> */}
-
-                  <Circle></Circle>
+                  <Countdown date={Date.now() + 60000} renderer={renderer} />
+                  {/* 
+                  <Circle></Circle> */}
                 </Stack>
 
                 <Stack
                   sx={{ width: 1 / 2 }}
-                  border={1}
                   justifyContent={"center"}
                   alignItems="end"
                 >
@@ -242,7 +280,7 @@ export default function CodeEditor() {
                     onMouseLeave={projectLeave}
                   >
                     <Typography fontSize={35} fontWeight={700} paddingX={20}>
-                      Hero team
+                      {Type} team
                     </Typography>
                   </div>
                 </Stack>
@@ -255,7 +293,9 @@ export default function CodeEditor() {
               <Editor
                 theme="vs-dark"
                 language="c"
+                className="message"
                 value="console.log('Hello, World!');"
+                onChange={handleChange}
               />
             </Stack>
             <div
@@ -263,7 +303,7 @@ export default function CodeEditor() {
               onMouseEnter={contactEnter}
               onMouseLeave={contactLeave}
             >
-              <SideDrawer></SideDrawer>
+              <SideDrawer colorCode={color} code={message}></SideDrawer>
             </div>
           </Stack>
         </Stack>
