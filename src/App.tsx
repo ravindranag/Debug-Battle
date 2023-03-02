@@ -8,6 +8,7 @@ import { ThemeProvider } from "@mui/material";
 import { CssBaseline } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import EntryR1 from "./pages/EntryR1";
+import Instruction from "./pages/Instruction";
 
 function App() {
   const theme = createTheme({
@@ -29,6 +30,7 @@ function App() {
         <AnimatePresence>
           <Routes>
             <Route path="/" element={<Entry />} />
+            <Route path="/info" element={<Instruction />} />
             <Route path="/Select" element={<Welcome />} />
             <Route path="/Editor" element={<Editor />} />
             <Route path="/Entry" element={<Entry />} />

@@ -44,7 +44,7 @@ export default function Entry() {
   };
   const moveIn = () => {
     sendData();
-    navigate("/Select", {
+    navigate("/info", {
       state: {
         name: name,
       },
