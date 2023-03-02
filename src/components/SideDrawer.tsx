@@ -18,7 +18,12 @@ import axios from "axios";
 type Anchor = "top" | "left" | "bottom" | "right";
 
 export default function SideDrawer(props) {
+  const [attempt, setAttempt] = useState(0);
+  const [penality, setPenality] = useState(0);
+
   const sendCode = () => {
+    setAttempt(attempt + 1);
+
     const tes1 = `#include <stdio.h>
     int main() {    
     
@@ -92,7 +97,25 @@ export default function SideDrawer(props) {
         mass: 0.5,
       },
     },
+    contact: {
+      opacity: 1,
+      backgroundColor: "rgba(255, 255, 255, 0)",
+      color: "#000",
+      height: 64,
+      width: 64,
+      fontSize: "32px",
+      x: mouseXPosition - 48,
+      y: mouseYPosition - 48,
+    },
   };
+
+  function contactEnter(event: any) {
+    setCursorVariant("contact");
+  }
+
+  function contactLeave(event: any) {
+    setCursorVariant("default");
+  }
 
   const spring = {
     type: "spring",
@@ -135,7 +158,6 @@ export default function SideDrawer(props) {
         }}
       >
         {/* {hammer && <img src={"hammer.png"} alt="shirt" />} */}
-        <span className="cursorText">view</span>
       </motion.div>
 
       <Box
@@ -160,16 +182,24 @@ export default function SideDrawer(props) {
           border={2}
           height="68vh"
           direction={"column"}
-          paddingY="35px"
-          gap="100px"
+          paddingY="25px"
+          gap="50px"
           alignItems={"center"}
         >
           <Typography sx={[{ fontSize: "26px" }, { fontWeight: "700" }]}>
             No of attempts:
           </Typography>
 
+          <Typography sx={[{ fontSize: "38px" }, { fontWeight: "900" }]}>
+            {attempt}
+          </Typography>
+
           <Typography sx={[{ fontSize: "26px" }, { fontWeight: "700" }]}>
             Penalty:
+          </Typography>
+
+          <Typography sx={[{ fontSize: "38px" }, { fontWeight: "900" }]}>
+            0
           </Typography>
         </Stack>
 
@@ -202,16 +232,6 @@ export default function SideDrawer(props) {
 
   return (
     <div ref={ref}>
-      <motion.div
-        variants={variants}
-        className="circle"
-        animate={Variant}
-        transition={spring}
-        style={{
-          width: "30px",
-          height: "30px",
-        }}
-      ></motion.div>
       {(["right"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button

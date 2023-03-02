@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Stack } from "@mui/material";
 import Editor from "@monaco-editor/react";
 import Box from "@mui/material/Box";
@@ -11,7 +11,7 @@ import useMouse from "@react-hook/mouse-position";
 import { useLocation } from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import AnimatedPage from "../components/AnimatedPage";
+import AnimatedPage2 from "../components/AnimatedPage2";
 import Countdown from "react-countdown";
 
 import ParticleBackground from "../particle";
@@ -25,9 +25,19 @@ export default function CodeEditor() {
   const [isHovering, setHover] = useState(false);
   const [open, setOpen] = React.useState(false);
 
-  const heros = ["ant.png"];
-  const villian = [];
+  useEffect(() => {}, []);
 
+  const { state } = useLocation();
+  const { Type, color, grad, prop1, prop2 } = state;
+
+  const props = [prop1, prop2];
+
+  // console.log(prop1)
+
+  // console.log(prop2)
+
+  //  console.log(Type)
+  // console.log(color)
   const handleTooltipClose = () => {
     setOpen(false);
   };
@@ -66,7 +76,7 @@ export default function CodeEditor() {
     project: {
       opacity: 1,
       // backgroundColor: "rgba(255, 255, 255, 0.6)",
-      backgroundColor: "#fff",
+      backgroundColor: color,
       color: "#000",
       height: 80,
       width: 80,
@@ -121,17 +131,6 @@ export default function CodeEditor() {
     setHammer(!hammer);
   }
 
-  const players = [
-    {
-      name: "hulk",
-      icon: "download.png",
-    },
-    {
-      name: "Spiderman",
-      icon: "spidey.png",
-    },
-  ];
-
   const Completionist = () => <span className="end">You are good to go!</span>;
 
   type Props = {
@@ -170,14 +169,9 @@ export default function CodeEditor() {
   //     await console.log(container);
   // }, []);
 
-  const { state } = useLocation();
-  const { Type, color, grad } = state;
-
-  //  console.log(Type)
-  // console.log(color)
   // console.log(grad)
   return (
-    <AnimatedPage>
+    <AnimatedPage2>
       <div className="editor-main-body" id="editor-main-body" ref={ref}>
         {/* <Particles id="tsparticles" url="http://foo.bar/particles.json"  /> */}
         {/* <div className="particle">
@@ -192,6 +186,7 @@ export default function CodeEditor() {
             mixBlendMode: isHovering ? "difference" : "normal",
             width: "30px",
             height: "30px",
+            backgroundColor: "#000",
           }}
         >
           {hammer && <img src={"hammer.png"} alt="shirt" />}
@@ -226,11 +221,18 @@ export default function CodeEditor() {
                   alignItems="start"
                 >
                   <Grid container>
-                    {players.map((items) => (
+                    {props.map((items) => (
                       <motion.div
-                        whileHover={{
-                          scale: 1.1,
+                        // whileHover={{
+                        //   scale: 1.1,
+                        // }}
+                        whileHover={{ scale: 0.9 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 10,
                         }}
+                        whileTap="tap"
                       >
                         <Grid padding={"6px"} item>
                           <ClickAwayListener onClickAway={handleTooltipClose}>
@@ -247,12 +249,14 @@ export default function CodeEditor() {
                                 title="Player"
                               >
                                 <Box onClick={handleTooltipOpen}>
-                                  <Avatar
-                                    className="type-icon"
-                                    alt="hjk"
-                                    src="download.png"
-                                    sx={{ width: 56, height: 56 }}
-                                  />
+                                  {
+                                    <Avatar
+                                      className="type-icon"
+                                      alt=""
+                                      src={items}
+                                      sx={{ width: 56, height: 56 }}
+                                    />
+                                  }
                                 </Box>
                               </Tooltip>
                             </div>
@@ -311,6 +315,6 @@ export default function CodeEditor() {
           </Stack>
         </Stack>
       </div>
-    </AnimatedPage>
+    </AnimatedPage2>
   );
 }

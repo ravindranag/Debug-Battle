@@ -6,6 +6,8 @@ import { useState } from "react";
 import useMouse from "@react-hook/mouse-position";
 import { motion } from "framer-motion";
 import AnimatedPage from "../components/AnimatedPage";
+import heroGuys from "../components/heroguys";
+import evilGuys from "../components/evilguys";
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -16,6 +18,7 @@ export default function Welcome() {
   const [isRedOpen, setIsRedOpen] = useState(false);
   const [isBlueOpen, setIsBlueOpen] = useState(false);
   const [cursorText, setCursorText] = useState("");
+  const [display, setDisplay] = useState(true);
 
   const ref = React.useRef(null);
   const mouse = useMouse(ref, {
@@ -104,22 +107,43 @@ export default function Welcome() {
     setType(!type);
   }
 
+  function getRandomItem(arr) {
+    // get random index value
+    const randomIndex = Math.floor(Math.random() * arr.length);
+
+    // get random item
+    const item = arr[randomIndex];
+
+    return item;
+  }
+
   const navigationHero = (color) => {
+    const result1 = getRandomItem(heroGuys);
+    const result2 = getRandomItem(heroGuys);
+    // console.log("name:"+result1);
+    // console.log("name:"+result2);
+
     navigate("/editor", {
       state: {
         Type: "Hero",
         color: color,
         grad: "linear-gradient(to left,rgb(33, 114, 221),rgb(255, 255, 255, 0))",
+        prop1: result1,
+        prop2: result2,
       },
     });
   };
 
   const navigationVillian = (color) => {
+    const result1 = getRandomItem(evilGuys);
+    const result2 = getRandomItem(evilGuys);
     navigate("/editor", {
       state: {
         Type: "Villian",
         color: color,
         grad: "linear-gradient(to left, rgb(230, 26, 26),rgb(255, 255, 255, 0))",
+        prop1: result1,
+        prop2: result2,
       },
     });
   };
@@ -204,7 +228,7 @@ export default function Welcome() {
               }}
               className="villian"
             >
-              <img src="heroes.jpg" alt="" />
+              {display && <img src="heroes.jpg" alt="" />}
             </motion.div>
 
             <motion.div
@@ -222,7 +246,7 @@ export default function Welcome() {
               data-isBlueOpen={isBlueOpen}
               className="hero"
             >
-              <img width={"900px"} src="villians.jpg" alt="" />
+              {display && <img width={"900px"} src="villians.jpg" alt="" />}
             </motion.div>
           </Stack>
         </Stack>

@@ -14,8 +14,9 @@ import { motion } from "framer-motion";
 import AnimatedPage from "../components/AnimatedPage";
 import { Box } from "@mui/material";
 import axios from "axios";
+import { Divider } from "@mui/material";
 
-export default function Entry() {
+export default function EntryR1() {
   const [branch, setBranch] = React.useState("");
   const [name, setName] = React.useState("");
   const [type, setType] = React.useState(false);
@@ -186,24 +187,59 @@ export default function Entry() {
                   required
                   onChange={nameChange}
                   id="Name"
-                  label="Name"
+                  label="Player 1"
                   sx={{ width: "300px" }}
                 />
                 <TextField
                   required
                   id="Registration"
-                  label="Registration no."
+                  label="Registration no. of Player1"
                   value={reg}
                   onChange={regChange}
                   sx={{ width: "300px" }}
                 />
-                <FormControl fullWidth required>
+                <FormControl fullWidth>
                   <InputLabel id="Branch-Select">Branch</InputLabel>
                   <Select
+                    required
                     labelId="Branch"
                     id="select"
                     value={branch}
-                    label="Age"
+                    label="Branch of Player 1"
+                    onChange={handleChange}
+                  >
+                    {branches.map((items) => (
+                      <MenuItem value={items}>{items}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <Divider sx={{ background: "#d1b3ff" }} />
+                {/* for player 2 */}
+
+                <TextField
+                  required
+                  onChange={nameChange}
+                  id="Name"
+                  label="Player 2"
+                  sx={{ width: "300px" }}
+                />
+                <TextField
+                  required
+                  id="Registration"
+                  label="Registration no of Player 2"
+                  value={reg}
+                  onChange={regChange}
+                  sx={{ width: "300px" }}
+                />
+                <FormControl fullWidth>
+                  <InputLabel id="Branch-Select">Branch</InputLabel>
+                  <Select
+                    required
+                    labelId="Branch"
+                    id="select"
+                    value={branch}
+                    label="Branch of Player 2"
                     onChange={handleChange}
                   >
                     {branches.map((items) => (
