@@ -13,6 +13,10 @@ import Tooltip from "@mui/material/Tooltip";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import AnimatedPage2 from "../components/AnimatedPage2";
 import Countdown from "react-countdown";
+import quizQuestions from "../components/quizQuestions";
+import { IconButton } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import ParticleBackground from "../particle";
 // import type { Container, Engine } from "tsparticles-engine";
@@ -296,15 +300,44 @@ export default function CodeEditor() {
           </Stack>
 
           <Stack className="code-editor-body" gap={5} marginTop="75px">
-            <Stack className="code-editor" width={1000} height={500}>
-              <Editor
-                theme="vs-dark"
-                language="c"
-                className="message"
-                value="console.log('Hello, World!');"
-                onChange={handleChange}
-              />
+            <Stack width={"100vw"} direction={"row"} justifyContent="center">
+              <ArrowBackIosNewIcon
+                onMouseEnter={projectEnter}
+                onMouseLeave={projectLeave}
+                sx={[
+                  { marginRight: "150px" },
+                  { scale: "2.5" },
+                  { marginTop: "230px" },
+                  { backgroundColor: "#fff" },
+                  { borderRadius: "100%" },
+                  { padding: "5px" },
+                ]}
+              ></ArrowBackIosNewIcon>
+
+              <Stack className="code-editor" width={1000} height={500}>
+                <Editor
+                  theme="vs-dark"
+                  language="c"
+                  className="message"
+                  value={quizQuestions[0]}
+                  onChange={handleChange}
+                />
+              </Stack>
+
+              <ArrowForwardIosIcon
+                onMouseEnter={projectEnter}
+                onMouseLeave={projectLeave}
+                sx={[
+                  { marginLeft: "150px" },
+                  { scale: "2.5" },
+                  { marginTop: "230px" },
+                  { backgroundColor: "#fff" },
+                  { borderRadius: "100%" },
+                  { padding: "5px" },
+                ]}
+              ></ArrowForwardIosIcon>
             </Stack>
+
             <div
               className="contact"
               onMouseEnter={contactEnter}
