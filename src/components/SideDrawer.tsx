@@ -20,53 +20,77 @@ type Anchor = "top" | "left" | "bottom" | "right";
 export default function SideDrawer(props) {
   const [attempt, setAttempt] = useState(0);
   const [penality, setPenality] = useState(0);
+  const [Status, checkStatus] = useState("");
+
+  const handleCompile = () => {
+    const code = `#include <stdio.h>
+    int main() {    
+    
+        int number1, number2, sum;
+        
+        printf("Enter two integers: ");
+        scanf("%d %d", &number1, &number2);
+    +
+        // calculating sum
+        sum = number1 + number2;      
+        
+        printf("%d + %d = %d", number1, number2, sum);
+        return 0;
+    }
+    `;
+
+    const formData = {
+      language_id: 50,
+      // encode source code in base64
+      source_code: btoa(code),
+    };
+    const options = {
+      method: "POST",
+      url: process.env.REACT_APP_RAPID_API_URL,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "content-type": "application/json",
+        "Content-Type": "application/json",
+        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+        "X-RapidAPI-Key": "c7cd4fe1aamsh83fb69188cc8391p115f11jsn416f0cd5025c",
+      },
+      data: formData,
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log("res.data", response.data);
+        const token = response.data.token;
+        checkStatus(token);
+      })
+      .catch((err) => {
+        let error = err.response ? err.response.data : err;
+
+        console.log(error);
+      });
+  };
 
   const sendCode = () => {
     setAttempt(attempt + 1);
 
-    const tes1 = `#include <stdio.h>
-    int main() {    
-    
-        int number1, number2, sum;
-        
-        printf("Enter two integers: ");
-        scanf("%d %d", &number1, &number2);
-    
-        // calculating sum
-        sum = number1 + number2;      
-        
-        printf("%d + %d = %d", number1, number2, sum);
-        return 0;
-    }
-    `;
-    const tes2 = `#include <stdio.h>
-    int main() {    
-    
-        int number1, number2, sum;
-        
-        printf("Enter two integers: ");
-        scanf("%d %d", &number1, &number2);
-    
-        // calculating sum
-        sum = number1 + number2;      
-        
-        printf("%d + %d = %d", number1, number2, sum);
-        return 0;
-    }
-    `;
+    // const tes1 = `#include <stdio.h>\nint main() {    \n\n    int number1, number2, sum;\n    \n    printf(","Enter two integers": ");\n    scanf(","%d %d":", &number1, &number2);\n\n    // calculating sum\n    sum = number1 + number2;      \n    \n    printf(","%d + %d = %d":", number1, number2, sum);\n    return 0;\n}\n`;
+    // const tes2 = `#include <stdio.h>\nint main() {    \n\n    int number1, number2, sum;\n    \n    printf(","Enter two integers": ");\n    scanf(","%d %d":", &number1, &number2);\n\n    // calculating sum\n    sum = number1 + number2;      \n    \n    printf(","%d + %d = %d":", number1, number2, sum);\n    return 0;\n}\n`;
+    // const token = 'd0fb2bd69bb14042b827cb9e75d75bb4'
+    // axios
+    //   .get(
+    //     `https://api.dandelion.eu/datatxt/sim/v1/?text1=${tes1}&text2=${tes2}&token=${token}`
+    //   )
+    //   .then((response) => {
+    //     const success = response;
 
-    axios
-      .get(
-        `https://api.dandelion.eu/datatxt/sim/v1/?text1=${tes1}&text2=${tes2}&token=d0fb2bd69bb14042b827cb9e75d75bb4`
-      )
-      .then((response) => {
-        const success = response;
+    //     console.log(success);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
-        console.log(success);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    handleCompile();
   };
 
   const [Variant, setCursorVariant] = useState("default");
@@ -166,21 +190,11 @@ export default function SideDrawer(props) {
         onClick={toggleDrawer(anchor, false)}
         onKeyDown={toggleDrawer(anchor, false)}
       >
-        <List>
-          {["Compile", "Starred"].map((text) => (
-            <ListItem key={text}>
-              <Avatar src="mjolnir.svg" />
-              <ListItemButton>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
         <Divider />
 
         <Stack
           border={2}
-          height="68vh"
+          height="87vh"
           direction={"column"}
           paddingY="25px"
           gap="50px"
