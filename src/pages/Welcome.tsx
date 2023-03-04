@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Stack } from "@mui/system";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import AnimatedPage from "../components/AnimatedPage";
 import heroGuys from "../components/heroguys";
 import evilGuys from "../components/evilguys";
+import useCursorStore from "../utils/store/useCursorStore";
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -19,93 +20,14 @@ export default function Welcome() {
   const [isBlueOpen, setIsBlueOpen] = useState(false);
   const [cursorText, setCursorText] = useState("");
   const [display, setDisplay] = useState(true);
+  const [setHoveringState, setCursorContent] = useCursorStore((state) => [
+    state.setHoveringState,
+    state.setCursorContent,
+  ]);
 
-  const ref = React.useRef(null);
-  const mouse = useMouse(ref, {
-    enterDelay: 100,
-    leaveDelay: 100,
-  });
-
-  let mouseXPosition: number = 0;
-  let mouseYPosition: number = 0;
-
-  if (mouse.x !== null) mouseXPosition = mouse.clientX as number;
-
-  if (mouse.y !== null) mouseYPosition = mouse.clientY as number;
-
-  const variants = {
-    default: {
-      opacity: 1,
-      height: 10,
-      width: 10,
-      fontSize: "16px",
-      backgroundColor: "#1e91d6",
-      x: mouseXPosition,
-      y: mouseYPosition,
-      transition: {
-        type: "spring",
-        mass: 0.5,
-      },
-    },
-    heroTitle: {
-      opacity: 1,
-      // backgroundColor: "rgba(255, 255, 255, 0.6)",
-      backgroundColor: "#fff",
-      color: "#000",
-      height: 80,
-      width: 80,
-      fontSize: "18px",
-      x: mouseXPosition - 32,
-      y: mouseYPosition - 32,
-    },
-    heroguy: {
-      opacity: 1,
-      backgroundColor: "rgba(255, 255, 255, 0)",
-      color: "#000",
-      height: 64,
-      width: 64,
-      fontSize: "32px",
-      x: mouseXPosition - 48,
-      y: mouseYPosition - 48,
-    },
-  };
-
-  function titleEnter(event: any) {
-    setHover(!isHovering);
-    setCursorVariant("heroTitle");
-  }
-
-  function titleLeave(event: any) {
-    setHover(!isHovering);
-
-    setCursorVariant("default");
-  }
-
-  function heroArenaEntry(event: any) {
-    setImgSrc("redskull.png");
-    setCursorText("Time to destroy☠️");
-    setCursorVariant("heroguy");
-    setType(!type);
-  }
-
-  function heroArenaLeave(event: any) {
-    setImgSrc("");
-    setCursorVariant("default");
-    setType(!type);
-  }
-
-  function villianArenaEntry(event: any) {
-    setImgSrc("shield.png");
-    setCursorText("Ready to save the day🥊");
-    setCursorVariant("heroguy");
-    setType(!type);
-  }
-
-  function villianArenaLeave(event: any) {
-    setImgSrc("");
-    setCursorVariant("default");
-    setType(!type);
-  }
+  useEffect(() => {
+    setHoveringState(false);
+  }, []);
 
   function getRandomItem(arr) {
     // get random index value
@@ -156,7 +78,7 @@ export default function Welcome() {
 
   return (
     <AnimatedPage>
-      <div ref={ref}>
+      <div>
         {/* <motion.div
           variants={variants}
           className="circle"
@@ -192,8 +114,8 @@ export default function Welcome() {
           alignItems={"center"}
         >
           <Typography
-            onMouseEnter={titleEnter}
-            onMouseLeave={titleLeave}
+            onMouseEnter={() => setHoveringState(true, "#fff")}
+            onMouseLeave={() => setHoveringState(false)}
             fontFamily={"Rajdhani"}
             variant="h2"
           >
@@ -210,13 +132,14 @@ export default function Welcome() {
             direction={"row"}
             justifyContent="center"
             alignItems={"center"}
-            gap="210px"
-            marginRight={"50px"}
+            gap="64px"
           >
             <motion.div
-              layout
-              onMouseEnter={villianArenaEntry}
-              onMouseLeave={villianArenaLeave}
+              //   layout
+              //   onMouseEnter={villianArenaEntry}
+              //   onMouseLeave={villianArenaLeave}
+              onMouseEnter={() => setCursorContent(true, "hero")}
+              onMouseLeave={() => setCursorContent(false)}
               whileHover={{
                 scale: 1.1,
               }}
@@ -228,13 +151,22 @@ export default function Welcome() {
               }}
               className="villian"
             >
-              {display && <img src="heroes.jpg" alt="" />}
+              <img
+                src="heroes.jpg"
+                style={{
+                  width: "100%",
+                  maxWidth: 400,
+                  objectFit: "contain",
+                }}
+              />
             </motion.div>
 
             <motion.div
-              layout
-              onMouseEnter={heroArenaEntry}
-              onMouseLeave={heroArenaLeave}
+              //   layout
+              //   onMouseEnter={heroArenaEntry}
+              //   onMouseLeave={heroArenaLeave}
+              onMouseEnter={() => setCursorContent(true, "villain")}
+              onMouseLeave={() => setCursorContent(false)}
               whileHover={{
                 scale: 1.1,
               }}
@@ -246,7 +178,14 @@ export default function Welcome() {
               data-isBlueOpen={isBlueOpen}
               className="hero"
             >
-              {display && <img width={"900px"} src="villians.jpg" alt="" />}
+              <img
+                src="villians.jpg"
+                style={{
+                  width: "100%",
+                  maxWidth: 400,
+                  objectFit: "contain",
+                }}
+              />
             </motion.div>
           </Stack>
         </Stack>

@@ -19,6 +19,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import ParticleBackground from "../particle";
+import useCursorStore from "../utils/store/useCursorStore";
 // import type { Container, Engine } from "tsparticles-engine";
 // import { loadFull } from "tsparticles"
 
@@ -28,8 +29,13 @@ export default function CodeEditor() {
   const [hammer, setHammer] = useState(false);
   const [isHovering, setHover] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [setCursorContent] = useCursorStore((state) => [
+    state.setCursorContent,
+  ]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setCursorContent(false);
+  }, []);
 
   const { state } = useLocation();
   const { Type, color, grad, prop1, prop2 } = state;

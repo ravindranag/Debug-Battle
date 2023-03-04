@@ -2,17 +2,32 @@ import { zeroPad } from "react-countdown";
 import useCursorStore from "../utils/store/useCursorStore";
 import { motion } from "framer-motion";
 import { useLayoutEffect } from "react";
+import { Stack, Typography } from "@mui/material";
 
 const Cursor = (): JSX.Element => {
-  const [x, y, setCursorPosition, cursorVisible, hideCursor, showCursor] =
-    useCursorStore((state) => [
-      state.x,
-      state.y,
-      state.setCursorPosition,
-      state.cursorVisible,
-      state.hideCursor,
-      state.showCursor,
-    ]);
+  const [
+    backgroundColor,
+    x,
+    y,
+    setCursorPosition,
+    cursorVisible,
+    hideCursor,
+    showCursor,
+    isHovering,
+    cursorContent,
+    setCursorContent,
+  ] = useCursorStore((state) => [
+    state.backgroundColor,
+    state.x,
+    state.y,
+    state.setCursorPosition,
+    state.cursorVisible,
+    state.hideCursor,
+    state.showCursor,
+    state.isHovering,
+    state.cursorContent,
+    state.setCursorContent,
+  ]);
   useLayoutEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       // console.log(e)
@@ -28,10 +43,11 @@ const Cursor = (): JSX.Element => {
 
   const variants = {
     default: {
-      x: x - 10,
-      y: y - 10,
-      width: 20,
-      height: 20,
+      x: x - (isHovering ? 40 : 10),
+      y: y - (isHovering ? 40 : 10),
+      width: isHovering ? 80 : 20,
+      height: isHovering ? 80 : 20,
+      backgroundColor: backgroundColor,
     },
   };
 
@@ -43,11 +59,32 @@ const Cursor = (): JSX.Element => {
         visibility: cursorVisible ? "visible" : "hidden",
         position: "fixed",
         zIndex: 99999,
-        backgroundColor: "#f00",
         borderRadius: "100px",
         pointerEvents: "none",
+        mixBlendMode: isHovering ? "difference" : "normal",
       }}
-    ></motion.div>
+    >
+      {cursorContent && (
+        <Stack
+          direction="row"
+          position="absolute"
+          width="300px"
+          gap="20px"
+          alignItems="center"
+        >
+          <img
+            src={cursorContent.img}
+            style={{
+              width: "50px",
+              objectFit: "contain",
+            }}
+          />
+          <Typography color="#fff" fontWeight={550}>
+            {cursorContent.text}
+          </Typography>
+        </Stack>
+      )}
+    </motion.div>
   );
 };
 export default Cursor;
