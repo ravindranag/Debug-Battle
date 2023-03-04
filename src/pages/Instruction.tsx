@@ -82,7 +82,7 @@ export default function Instruction(name) {
   };
 
   const moveIn = () => {
-    navigate("/select", {
+    navigate("/round1", {
       state: {
         name: name,
       },
@@ -123,8 +123,8 @@ export default function Instruction(name) {
               elevation={3}
               sx={[
                 { backgroundColor: "#47d147" },
-                { margin: "30px" },
-                { paddingBlock: "20px" },
+                { margin: "10px" },
+                { paddingBlock: "15px" },
               ]}
             >
               <Typography
