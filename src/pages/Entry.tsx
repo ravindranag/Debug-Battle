@@ -37,9 +37,12 @@ export default function Entry() {
 
   const sendData = () => {
     axios.post("http://localhost:5000/auth", {
-      username: name,
-      regdno: reg,
-      branch: branch,
+      username1: name,
+      regdno1: reg,
+      branch1: branch,
+      username2: name,
+      regdno2: reg,
+      branch2: branch,
     });
   };
   const moveIn = () => {

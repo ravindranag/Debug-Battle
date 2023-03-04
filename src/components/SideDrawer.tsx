@@ -117,6 +117,11 @@ export default function SideDrawer(props) {
     if (attempt > 3) return;
 
     handleCompile();
+
+    axios.post("https://localhost:5000/getCode", {
+      username: props.userName,
+      code: props.code,
+    });
   };
 
   const [Variant, setCursorVariant] = useState("default");

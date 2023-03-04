@@ -5,17 +5,17 @@ var quizQuestions = [
   // question #1
   `#include <stdio.h>
 
-int main()
-{
-    int x, y, sum;
-    printf("Enter two numbers to add.\n");
-    scanf("%d%d", &x, &y);
+    int main()
+    {
+        int x, y, sum;
+        printf("Enter two numbers to add.\n");
+        scanf("%d%d", &x, &y);
 
-    sum = x + y;
-    printf("Sum = ", sum);
+        sum = x + y;
+        printf("Sum = ", sum);
 
-    return 0;
-}
+        return 0;
+    }
 `,
   // question #2
   `#include <stdio.h>
@@ -62,12 +62,12 @@ printf("\nEnter two numbers : ");
 scanf("%D %d",&a,&b);
 int i;
 for(i = 1; i <= a & i <= b; i++)
-{
-if((a % i == 0) & (b % i == 0))
-{
-GCD += i;
-}
-}
+  {
+    if((a % i == 0) & (b % i == 0))
+    {
+    GCD += i;
+    }
+  }
 printf("\nGCD of %d and %d is %d" ,a,b,gcd);
 printf("\n");
 return 0;
@@ -75,27 +75,27 @@ return 0;
 `,
   // question #5
   `#include<stdio.h>  
-void main(){    
-int n,i,m=0,flag=0;    
-printf("Enter the number to check prime:");    
-scanf("%c",&n);    
-m=n/2;    
-for(i=2;i<=m;i++)    
-{    
-    if(n%i==0)
+    void main(){    
+    int n,i,m=0,flag=0;    
+    printf("Enter the number to check prime:");    
+    scanf("%c",&n);    
+    m=n/2;    
+    for(i=2;i<=m;i++)    
     {    
-        printf("Number is not prime");      
-        goto;
+        if(n%i==0)
+        {    
+            printf("Number is not prime");      
+            goto;
+        }    
     }    
-}    
-if(flag==0)    
-printf("Number is prime");    
-return 0;  
-}
+    if(flag==0)    
+    printf("Number is prime");    
+    return 0;  
+    }
 `,
   // question #6
   `#include <stdio.h>
-int main() {
+  int main() {
    int year;
    printf("Enter a Year: ");
    scanf("%d", &Year);
@@ -119,7 +119,7 @@ int main() {
 `,
   // question #7
   `#include <stdio.h>
-int main() {
+  int main() {
   int num, reverse = 0, remainder;
   printf("Enter an integer: ");
   scanf("%d", n);
@@ -134,21 +134,21 @@ int main() {
 }`,
   // question #8
   `#include <studio.h>
-int main()
-{
-	int x, y;
-	printf("Enter Value of x ");
-	scanf("%d", &&x)
-	printf("\nEnter Value of y ");
-	scanf("%d", &y)
+  int main()
+  {
+    int x, y;
+    printf("Enter Value of x ");
+    scanf("%d", &&x)
+    printf("\nEnter Value of y ");
+    scanf("%d", &y)
 
-	int temp = x;
-	x = y;
-	y = temp;
-	
-	printf("\nAfter Swapping: x = %x, y = %d", x, y);
-	return 0;
-}`,
+    int temp = x;
+    x = y;
+    y = temp;
+    
+    printf("\nAfter Swapping: x = %x, y = %d", x, y);
+    return 0;
+  }`,
   // question #9
   `#include<stdio.h> 
 int main()
@@ -204,11 +204,40 @@ int main()
     return 0; 
 }`,
   // question #12
-  ``,
+  `#include <stdio.h>
+    int main(void) {
+    int c=A;
+    int d=0;
+    for(;c>0;c--)
+      {
+        d+=1;
+      }
+    printf("%d",d);
+    return 0;
+}
+`,
   // question #13
-  ``,
+  `int main(void) {
+    int c=65;
+    int d=0;
+    for(c>0;;c--)
+      {
+        d+=1;
+      }
+    printf("%d",d);
+    return 0;
+}
+`,
   // question #14
-  ``,
+  `#include <stdio.h>
+    int main(void) {
+    int x,y,c=0;
+    scanf("%d%d",&x,&y);
+    x+y==20?int d=1:c--;
+    printf("%d",d);
+    return 0;
+}
+`,
   // question #15
   ``,
 ];

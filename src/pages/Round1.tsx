@@ -20,7 +20,7 @@ import SideDrawer from "../components/SideDrawer";
 import ExitModal from "../components/ExitModal";
 import { useNavigate } from "react-router-dom";
 
-export default function Round1() {
+export default function Round1(props) {
   const [content, setContent] = useState(quizQuestions[0]);
   const [Variant, setCursorVariant] = useState("default");
   const [hammer, setHammer] = useState(false);
@@ -224,7 +224,11 @@ export default function Round1() {
                 onMouseEnter={buttonEnter}
                 onMouseLeave={buttonLeave}
               >
-                <SideDrawer colorCode={"#8533ff"} code={message}></SideDrawer>
+                <SideDrawer
+                  colorCode={"#8533ff"}
+                  code={message}
+                  userName={props.name}
+                ></SideDrawer>
               </div>
             </Stack>
           </Stack>

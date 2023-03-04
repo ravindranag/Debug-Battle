@@ -18,9 +18,13 @@ import { Divider } from "@mui/material";
 
 export default function EntryR1() {
   const [branch, setBranch] = React.useState("");
+  const [branch2, setBranch2] = React.useState("");
   const [name, setName] = React.useState("");
   const [type, setType] = React.useState(false);
   const [reg, setReg] = React.useState("");
+  const [name2, setName2] = React.useState("");
+  const [type2, setType2] = React.useState(false);
+  const [reg2, setReg2] = React.useState("");
 
   const branches = ["CSE", "EE", "ETC", "MME"];
 
@@ -36,11 +40,26 @@ export default function EntryR1() {
     setReg(event.target.value as string);
   };
 
+  const handleChange2 = (event: SelectChangeEvent) => {
+    setBranch2(event.target.value as string);
+  };
+
+  const nameChange2 = (event) => {
+    setName2(event.target.value as string);
+  };
+
+  const regChange2 = (event) => {
+    setReg2(event.target.value as string);
+  };
+
   const sendData = () => {
     axios.post("http://localhost:5000/auth", {
       username: name,
       regdno: reg,
       branch: branch,
+      username2: name2,
+      regdno2: reg2,
+      branch2: branch2,
     });
   };
   const moveIn = () => {
@@ -187,6 +206,7 @@ export default function EntryR1() {
                   required
                   onChange={nameChange}
                   id="Name"
+                  value={name}
                   label="Player 1"
                   sx={{ width: "300px" }}
                 />
@@ -219,8 +239,9 @@ export default function EntryR1() {
 
                 <TextField
                   required
-                  onChange={nameChange}
+                  onChange={nameChange2}
                   id="Name"
+                  value={name2}
                   label="Player 2"
                   sx={{ width: "300px" }}
                 />
@@ -228,8 +249,8 @@ export default function EntryR1() {
                   required
                   id="Registration"
                   label="Registration no of Player 2"
-                  value={reg}
-                  onChange={regChange}
+                  value={reg2}
+                  onChange={regChange2}
                   sx={{ width: "300px" }}
                 />
                 <FormControl fullWidth>
@@ -238,9 +259,9 @@ export default function EntryR1() {
                     required
                     labelId="Branch"
                     id="select"
-                    value={branch}
+                    value={branch2}
                     label="Branch of Player 2"
-                    onChange={handleChange}
+                    onChange={handleChange2}
                   >
                     {branches.map((items) => (
                       <MenuItem value={items}>{items}</MenuItem>
