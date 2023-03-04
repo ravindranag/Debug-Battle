@@ -181,7 +181,7 @@ export default function CodeEditor() {
         {/* <div className="particle">
       <ParticleBackground></ParticleBackground>
       </div> */}
-        <motion.div
+        {/* <motion.div
           variants={variants}
           className="circle"
           animate={Variant}
@@ -195,7 +195,7 @@ export default function CodeEditor() {
         >
           {hammer && <img src={"hammer.png"} alt="shirt" />}
           <span className="cursorText">{cursorText}</span>
-        </motion.div>
+        </motion.div> */}
         <Stack justifyContent={"center"} alignItems="center">
           <Stack className="Question header" width="100vw" height="70px">
             <Box

@@ -98,7 +98,7 @@ export default function ExitModal() {
 
   return (
     <div ref={ref}>
-      <motion.div
+      {/* <motion.div
         variants={variants}
         className="circle"
         animate={Variant}
@@ -108,7 +108,7 @@ export default function ExitModal() {
           width: "30px",
           height: "30px",
         }}
-      ></motion.div>
+      ></motion.div> */}
       <Stack
         className="glass"
         sx={{ height: "100vh" }}

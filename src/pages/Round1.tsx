@@ -138,7 +138,7 @@ export default function Round1() {
       {!modal && <ExitModal></ExitModal>}
 
       <div ref={ref} className="round-1">
-        <motion.div
+        {/* <motion.div
           variants={variants}
           className="circle"
           animate={Variant}
@@ -150,7 +150,7 @@ export default function Round1() {
           }}
         >
           {hammer && <img src={"spider.png"} alt="shirt" />}
-        </motion.div>
+        </motion.div> */}
         <Stack sx={[{ backgroundColor: "#d8d8eb" }, { height: "100vh" }]}>
           <Stack>
             <Typography

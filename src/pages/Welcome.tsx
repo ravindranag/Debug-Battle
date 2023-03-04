@@ -157,7 +157,7 @@ export default function Welcome() {
   return (
     <AnimatedPage>
       <div ref={ref}>
-        <motion.div
+        {/* <motion.div
           variants={variants}
           className="circle"
           animate={Variant}
@@ -183,7 +183,7 @@ export default function Welcome() {
               {cursorText}
             </span>
           )}
-        </motion.div>
+        </motion.div> */}
 
         <Stack
           height={"100vh"}

@@ -11,6 +11,7 @@ import EntryR1 from "./pages/EntryR1";
 import Instruction from "./pages/Instruction";
 import Round1 from "./pages/Round1";
 import ExitModal from "./components/ExitModal";
+import Cursor from "./components/Cursor";
 
 function App() {
   const theme = createTheme({
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Cursor />
       <CssBaseline enableColorScheme />
       <div className="App">
         <AnimatePresence>

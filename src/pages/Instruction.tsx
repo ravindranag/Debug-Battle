@@ -87,7 +87,7 @@ export default function Instruction(name) {
 
   return (
     <div className="instruction" ref={ref}>
-      <motion.div
+      {/* <motion.div
         variants={variants}
         className="circle"
         animate={Variant}
@@ -97,7 +97,7 @@ export default function Instruction(name) {
           width: "30px",
           height: "30px",
         }}
-      ></motion.div>
+      ></motion.div> */}
       <Stack>
         <Typography
           onMouseEnter={textEnter}
