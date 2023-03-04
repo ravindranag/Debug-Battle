@@ -173,13 +173,14 @@ export default function Round1() {
                     width={"100vw"}
                     direction={"row"}
                     justifyContent="center"
+                    margin={"0 auto"}
                   >
                     <Box onClick={prev}>
                       <ArrowBackIosNewIcon
                         onMouseEnter={projectEnter}
                         onMouseLeave={projectLeave}
                         sx={[
-                          { marginRight: "150px" },
+                          { marginRight: "40px" },
                           { scale: "2.5" },
                           { marginTop: "230px" },
                           { backgroundColor: "#fff" },
@@ -189,7 +190,7 @@ export default function Round1() {
                       ></ArrowBackIosNewIcon>
                     </Box>
 
-                    <Stack className="code-editor" width={1000} height={500}>
+                    <Stack className="code-editor" width={800} height={450}>
                       <Editor
                         theme="vs-dark"
                         language="c"
@@ -204,7 +205,7 @@ export default function Round1() {
                         onMouseEnter={projectEnter}
                         onMouseLeave={projectLeave}
                         sx={[
-                          { marginLeft: "150px" },
+                          { marginLeft: "40px" },
                           { scale: "2.5" },
                           { marginTop: "230px" },
                           { backgroundColor: "#fff" },
