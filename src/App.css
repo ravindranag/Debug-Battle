@@ -1,4 +1,8 @@
 * {
+  cursor: none !important;
+}
+
+button {
   cursor: none;
 }
 
@@ -118,8 +122,8 @@ body {
 
 .hero,
 .villian {
-  height: 300px;
-  width: 360px;
+  /* height: 300px; */
+  width: 400px;
   display: flex;
 }
 
@@ -152,7 +156,8 @@ body {
 
 .instruction {
   background-color: black;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 128px 0;
 }
 
 .glass-material {

@@ -137,99 +137,97 @@ export default function Round1() {
     <AnimatedPage2>
       {!modal && <ExitModal></ExitModal>}
 
-      {modal && (
-        <div ref={ref} className="round-1">
-          <motion.div
-            variants={variants}
-            className="circle"
-            animate={Variant}
-            transition={spring}
-            style={{
-              mixBlendMode: isHovering ? "difference" : "normal",
-              width: "30px",
-              height: "30px",
-            }}
-          >
-            {hammer && <img src={"spider.png"} alt="shirt" />}
-          </motion.div>
-          <Stack sx={[{ backgroundColor: "#d8d8eb" }, { height: "100vh" }]}>
-            <Stack>
-              <Typography
-                onMouseEnter={projectEnter}
-                onMouseLeave={projectLeave}
-                sx={{ marginTop: "20px" }}
-                variant="h3"
+      <div ref={ref} className="round-1">
+        {/* <motion.div
+          variants={variants}
+          className="circle"
+          animate={Variant}
+          transition={spring}
+          style={{
+            mixBlendMode: isHovering ? "difference" : "normal",
+            width: "30px",
+            height: "30px",
+          }}
+        >
+          {hammer && <img src={"spider.png"} alt="shirt" />}
+        </motion.div> */}
+        <Stack sx={[{ backgroundColor: "#d8d8eb" }, { height: "100vh" }]}>
+          <Stack>
+            <Typography
+              onMouseEnter={projectEnter}
+              onMouseLeave={projectLeave}
+              sx={{ marginTop: "20px" }}
+              variant="h3"
+            >
+              Qualifier Round
+            </Typography>
+            <Box sx={{ backgroundColor: "#d8d8eb" }}>
+              <Stack
+                className="code-editor-body-r1"
+                gap={5}
+                marginTop="75px"
+                sx={{ backgroundColor: "#d8d8eb" }}
               >
-                Qualifier Round
-              </Typography>
-              <Box sx={{ backgroundColor: "#d8d8eb" }}>
                 <Stack
-                  className="code-editor-body-r1"
-                  gap={5}
-                  marginTop="75px"
-                  sx={{ backgroundColor: "#d8d8eb" }}
+                  width={"100vw"}
+                  direction={"row"}
+                  justifyContent="center"
+                  margin={"0 auto"}
                 >
-                  <Stack
-                    width={"100vw"}
-                    direction={"row"}
-                    justifyContent="center"
-                    margin={"0 auto"}
-                  >
-                    <Box onClick={prev}>
-                      <ArrowBackIosNewIcon
-                        onMouseEnter={projectEnter}
-                        onMouseLeave={projectLeave}
-                        sx={[
-                          { marginRight: "40px" },
-                          { scale: "2.5" },
-                          { marginTop: "230px" },
-                          { backgroundColor: "#fff" },
-                          { borderRadius: "100%" },
-                          { padding: "5px" },
-                        ]}
-                      ></ArrowBackIosNewIcon>
-                    </Box>
+                  <Box onClick={prev}>
+                    <ArrowBackIosNewIcon
+                      onMouseEnter={projectEnter}
+                      onMouseLeave={projectLeave}
+                      sx={[
+                        { marginRight: "40px" },
+                        { scale: "2.5" },
+                        { marginTop: "230px" },
+                        { backgroundColor: "#fff" },
+                        { borderRadius: "100%" },
+                        { padding: "5px" },
+                      ]}
+                    ></ArrowBackIosNewIcon>
+                  </Box>
 
-                    <Stack className="code-editor" width={800} height={450}>
-                      <Editor
-                        theme="vs-dark"
-                        language="c"
-                        className="message"
-                        value={content}
-                        onChange={handleChange}
-                      />
-                    </Stack>
-
-                    <Box onClick={next}>
-                      <ArrowForwardIosIcon
-                        onMouseEnter={projectEnter}
-                        onMouseLeave={projectLeave}
-                        sx={[
-                          { marginLeft: "40px" },
-                          { scale: "2.5" },
-                          { marginTop: "230px" },
-                          { backgroundColor: "#fff" },
-                          { borderRadius: "100%" },
-                          { padding: "5px" },
-                        ]}
-                      ></ArrowForwardIosIcon>
-                    </Box>
+                  <Stack className="code-editor" width={800} height={450}>
+                    <Editor
+                      theme="vs-dark"
+                      language="c"
+                      className="message"
+                      value={content}
+                      onChange={handleChange}
+                    />
                   </Stack>
+
+                  <Box onClick={next}>
+                    <ArrowForwardIosIcon
+                      onMouseEnter={projectEnter}
+                      onMouseLeave={projectLeave}
+                      sx={[
+                        { marginLeft: "40px" },
+                        { scale: "2.5" },
+                        { marginTop: "230px" },
+                        { backgroundColor: "#fff" },
+                        { borderRadius: "100%" },
+                        { padding: "5px" },
+                      ]}
+                    ></ArrowForwardIosIcon>
+                  </Box>
                 </Stack>
-              </Box>
-            </Stack>
-            <Stack alignItems={"center"} marginTop="30px">
-              <div
-                className="contact"
-                onMouseEnter={buttonEnter}
-                onMouseLeave={buttonLeave}
-              >
-                <SideDrawer colorCode={"#8533ff"} code={message}></SideDrawer>
-              </div>
-            </Stack>
+              </Stack>
+            </Box>
           </Stack>
-        </div>
-      )}
+          <Stack alignItems={"center"} marginTop="30px">
+            <div
+              className="contact"
+              onMouseEnter={buttonEnter}
+              onMouseLeave={buttonLeave}
+            >
+              <SideDrawer colorCode={"#8533ff"} code={message}></SideDrawer>
+            </div>
+          </Stack>
+        </Stack>
+      </div>
     </AnimatedPage2>
   );
 }
