@@ -20,39 +20,82 @@ type Anchor = "top" | "left" | "bottom" | "right";
 export default function SideDrawer(props) {
   const [attempt, setAttempt] = useState(0);
   const [penality, setPenality] = useState(0);
-  const [Status, checkStatus] = useState("");
+  const [score, setScore] = useState(0);
+
+  const checkStatus = async (token) => {
+    const options = {
+      method: "GET",
+      url: "https://judge0-ce.p.rapidapi.com/submissions" + "/" + token,
+      params: { base64_encoded: "true", fields: "*" },
+      headers: {
+        "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
+        "X-RapidAPI-Key": "a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e",
+      },
+    };
+    try {
+      let response = await axios.request(options);
+      let statusId = response.data.status?.id;
+
+      // Processed - we have a result
+      if (statusId === 1 || statusId === 2) {
+        // still processing
+        setTimeout(() => {
+          checkStatus(token);
+        }, 2000);
+        return;
+      } else {
+        console.log("response.data", response.data.status);
+
+        if (response.data.status.id === 3) setScore(score + 5);
+        else {
+          setPenality(penality + 2);
+          setScore(score - 2);
+        }
+
+        return;
+      }
+    } catch (err) {
+      console.log("err", err);
+    }
+  };
+
+  const [rh, setRh] = useState("");
+
+  const newOne = () => {
+    switch (new Date().getDay()) {
+      case 1:
+        {
+          setRh("7415646ae7msh37f791037366780p1132e2jsna7ba58f2266b");
+        }
+        break;
+      case 4:
+        setRh("ed67a98a33mshad1b6fdbf4be75cp154094jsnfac461e9aa5a");
+        break;
+      case 5:
+        setRh("a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e");
+        break;
+    }
+  };
 
   const handleCompile = () => {
-    const code = `#include <stdio.h>
-    int main() {    
-    
-        int number1, number2, sum;
-        
-        printf("Enter two integers: ");
-        scanf("%d %d", &number1, &number2);
-    +
-        // calculating sum
-        sum = number1 + number2;      
-        
-        printf("%d + %d = %d", number1, number2, sum);
-        return 0;
-    }
-    `;
+    const code: string = props.code;
+
+    console.log(props.code);
 
     const formData = {
       language_id: 50,
       // encode source code in base64
-      source_code: btoa(code),
+      source_code: code.toString(),
     };
     const options = {
       method: "POST",
-      url: process.env.REACT_APP_RAPID_API_URL,
-      params: { base64_encoded: "true", fields: "*" },
+      url: "https://judge0-ce.p.rapidapi.com/submissions",
+      params: { base64_encoded: "false", fields: "*" },
       headers: {
         "content-type": "application/json",
         "Content-Type": "application/json",
         "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "c7cd4fe1aamsh83fb69188cc8391p115f11jsn416f0cd5025c",
+        "X-RapidAPI-Key": "a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e",
       },
       data: formData,
     };
@@ -73,22 +116,6 @@ export default function SideDrawer(props) {
 
   const sendCode = () => {
     setAttempt(attempt + 1);
-
-    // const tes1 = `#include <stdio.h>\nint main() {    \n\n    int number1, number2, sum;\n    \n    printf(","Enter two integers": ");\n    scanf(","%d %d":", &number1, &number2);\n\n    // calculating sum\n    sum = number1 + number2;      \n    \n    printf(","%d + %d = %d":", number1, number2, sum);\n    return 0;\n}\n`;
-    // const tes2 = `#include <stdio.h>\nint main() {    \n\n    int number1, number2, sum;\n    \n    printf(","Enter two integers": ");\n    scanf(","%d %d":", &number1, &number2);\n\n    // calculating sum\n    sum = number1 + number2;      \n    \n    printf(","%d + %d = %d":", number1, number2, sum);\n    return 0;\n}\n`;
-    // const token = 'd0fb2bd69bb14042b827cb9e75d75bb4'
-    // axios
-    //   .get(
-    //     `https://api.dandelion.eu/datatxt/sim/v1/?text1=${tes1}&text2=${tes2}&token=${token}`
-    //   )
-    //   .then((response) => {
-    //     const success = response;
-
-    //     console.log(success);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
 
     handleCompile();
   };
@@ -209,11 +236,19 @@ export default function SideDrawer(props) {
           </Typography>
 
           <Typography sx={[{ fontSize: "26px" }, { fontWeight: "700" }]}>
+            Score:
+          </Typography>
+
+          <Typography sx={[{ fontSize: "38px" }, { fontWeight: "900" }]}>
+            {score}
+          </Typography>
+
+          <Typography sx={[{ fontSize: "26px" }, { fontWeight: "700" }]}>
             Penalty:
           </Typography>
 
           <Typography sx={[{ fontSize: "38px" }, { fontWeight: "900" }]}>
-            0
+            {penality}
           </Typography>
         </Stack>
 

@@ -17,7 +17,7 @@ import quizQuestions from "../components/quizQuestions";
 import { IconButton } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
+import ExitModal from "../components/ExitModal";
 import ParticleBackground from "../particle";
 // import type { Container, Engine } from "tsparticles-engine";
 // import { loadFull } from "tsparticles"
@@ -100,7 +100,7 @@ export default function CodeEditor() {
     },
   };
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(quizQuestions[0]);
   const handleChange = (value) => {
     setMessage(value);
 
@@ -160,194 +160,208 @@ export default function CodeEditor() {
     }
   };
 
-  //   const particlesInit = useCallback(async (engine: Engine) => {
-  //     console.log(engine);
+  const cardRef = React.useRef(null);
+  const [cardData, setCardData] = useState(1);
+  const [quesNo, setNo] = useState(0);
+  const [complete, setComplete] = useState(0);
+  const [done, setDone] = useState(true);
+  const [modal, setModal] = useState(true);
+  const [content, setContent] = useState(quizQuestions[0]);
 
-  //     // you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
-  //     // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-  //     // starting from v2 you can add only the features you need reducing the bundle size
-  //     await loadFull(engine);
-  // }, []);
+  const next = () => {
+    setNo((i) => i + 1);
+    setContent(quizQuestions[quesNo]);
 
-  // const particlesLoaded = useCallback(async (container: Container | undefined) => {
-  //     await console.log(container);
-  // }, []);
+    if (quesNo == 11) setModal(!modal);
+  };
 
-  // console.log(grad)
+  const prev = () => {
+    setNo((i) => i - 1);
+    setContent(quizQuestions[quesNo]);
+  };
+
   return (
     <AnimatedPage2>
-      <div className="editor-main-body" id="editor-main-body" ref={ref}>
-        {/* <Particles id="tsparticles" url="http://foo.bar/particles.json"  /> */}
-        {/* <div className="particle">
+      {!modal && <ExitModal></ExitModal>}
+
+      {modal && (
+        <div className="editor-main-body" id="editor-main-body" ref={ref}>
+          {/* <Particles id="tsparticles" url="http://foo.bar/particles.json"  /> */}
+          {/* <div className="particle">
       <ParticleBackground></ParticleBackground>
-      </div> */}
-        <motion.div
-          variants={variants}
-          className="circle"
-          animate={Variant}
-          transition={spring}
-          style={{
-            mixBlendMode: isHovering ? "difference" : "normal",
-            width: "30px",
-            height: "30px",
-            backgroundColor: "#000",
-          }}
-        >
-          {hammer && <img src={"hammer.png"} alt="shirt" />}
-          <span className="cursorText">{cursorText}</span>
-        </motion.div>
-        <Stack justifyContent={"center"} alignItems="center">
-          <Stack className="Question header" width="100vw" height="70px">
-            <Box
-              sx={[
-                {
-                  width: "100vw",
-                },
-                { height: "90px" },
-              ]}
-              className="hv-box"
-            >
-              <Stack
-                direction="row"
+    </div> */}
+          <motion.div
+            variants={variants}
+            className="circle"
+            animate={Variant}
+            transition={spring}
+            style={{
+              mixBlendMode: isHovering ? "difference" : "normal",
+              width: "30px",
+              height: "30px",
+              backgroundColor: "#000",
+            }}
+          >
+            {hammer && <img src={"hammer.png"} alt="shirt" />}
+            <span className="cursorText">{cursorText}</span>
+          </motion.div>
+          <Stack justifyContent={"center"} alignItems="center">
+            <Stack className="Question header" width="100vw" height="70px">
+              <Box
                 sx={[
-                  { height: "90px" },
                   {
-                    backgroundImage: grad,
+                    width: "100vw",
                   },
-                  // ,{
-                  //   color:color
-                  // }
+                  { height: "90px" },
                 ]}
+                className="hv-box"
               >
                 <Stack
-                  sx={{ width: 1 / 2 }}
-                  justifyContent={"center"}
-                  alignItems="start"
+                  direction="row"
+                  sx={[
+                    { height: "90px" },
+                    {
+                      backgroundImage: grad,
+                    },
+                    // ,{
+                    //   color:color
+                    // }
+                  ]}
                 >
-                  <Grid container>
-                    {props.map((items) => (
-                      <motion.div
-                        // whileHover={{
-                        //   scale: 1.1,
-                        // }}
-                        whileHover={{ scale: 0.9 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 10,
-                        }}
-                        whileTap="tap"
-                      >
-                        <Grid padding={"6px"} item>
-                          <ClickAwayListener onClickAway={handleTooltipClose}>
-                            <div>
-                              <Tooltip
-                                PopperProps={{
-                                  disablePortal: true,
-                                }}
-                                onClose={handleTooltipClose}
-                                open={open}
-                                disableFocusListener
-                                disableHoverListener
-                                disableTouchListener
-                                title="Player"
-                              >
-                                <Box onClick={handleTooltipOpen}>
-                                  {
-                                    <Avatar
-                                      className="type-icon"
-                                      alt=""
-                                      src={items}
-                                      sx={{ width: 56, height: 56 }}
-                                    />
-                                  }
-                                </Box>
-                              </Tooltip>
-                            </div>
-                          </ClickAwayListener>
-                        </Grid>
-                      </motion.div>
-                    ))}
-                  </Grid>
-                </Stack>
-                <Stack
-                  sx={{ width: 1 / 2 }}
-                  justifyContent={"center"}
-                  alignItems="center"
-                >
-                  <Countdown date={Date.now() + 60000} renderer={renderer} />
-                  {/* 
-                  <Circle></Circle> */}
-                </Stack>
-
-                <Stack
-                  sx={{ width: 1 / 2 }}
-                  justifyContent={"center"}
-                  alignItems="end"
-                >
-                  <div
-                    className="project"
-                    onMouseEnter={projectEnter}
-                    onMouseLeave={projectLeave}
+                  <Stack
+                    sx={{ width: 1 / 2 }}
+                    justifyContent={"center"}
+                    alignItems="start"
                   >
-                    <Typography fontSize={35} fontWeight={700} paddingX={20}>
-                      {Type} team
-                    </Typography>
-                  </div>
+                    <Grid container>
+                      {props.map((items) => (
+                        <motion.div
+                          // whileHover={{
+                          //   scale: 1.1,
+                          // }}
+                          whileHover={{ scale: 0.9 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 10,
+                          }}
+                          whileTap="tap"
+                        >
+                          <Grid padding={"6px"} item>
+                            <ClickAwayListener onClickAway={handleTooltipClose}>
+                              <div>
+                                <Tooltip
+                                  PopperProps={{
+                                    disablePortal: true,
+                                  }}
+                                  onClose={handleTooltipClose}
+                                  open={open}
+                                  disableFocusListener
+                                  disableHoverListener
+                                  disableTouchListener
+                                  title="Player"
+                                >
+                                  <Box onClick={handleTooltipOpen}>
+                                    {
+                                      <Avatar
+                                        className="type-icon"
+                                        alt=""
+                                        src={items}
+                                        sx={{ width: 56, height: 56 }}
+                                      />
+                                    }
+                                  </Box>
+                                </Tooltip>
+                              </div>
+                            </ClickAwayListener>
+                          </Grid>
+                        </motion.div>
+                      ))}
+                    </Grid>
+                  </Stack>
+                  <Stack
+                    sx={{ width: 1 / 2 }}
+                    justifyContent={"center"}
+                    alignItems="center"
+                  >
+                    <Countdown date={Date.now() + 60000} renderer={renderer} />
+                    {/* 
+                  <Circle></Circle> */}
+                  </Stack>
+
+                  <Stack
+                    sx={{ width: 1 / 2 }}
+                    justifyContent={"center"}
+                    alignItems="end"
+                  >
+                    <div
+                      className="project"
+                      onMouseEnter={projectEnter}
+                      onMouseLeave={projectLeave}
+                    >
+                      <Typography fontSize={35} fontWeight={700} paddingX={20}>
+                        {Type} team
+                      </Typography>
+                    </div>
+                  </Stack>
                 </Stack>
-              </Stack>
-            </Box>
-          </Stack>
-
-          <Stack className="code-editor-body" gap={5} marginTop="75px">
-            <Stack width={"100vw"} direction={"row"} justifyContent="center">
-              <ArrowBackIosNewIcon
-                onMouseEnter={projectEnter}
-                onMouseLeave={projectLeave}
-                sx={[
-                  { marginRight: "150px" },
-                  { scale: "2.5" },
-                  { marginTop: "230px" },
-                  { backgroundColor: "#fff" },
-                  { borderRadius: "100%" },
-                  { padding: "5px" },
-                ]}
-              ></ArrowBackIosNewIcon>
-
-              <Stack className="code-editor" width={1000} height={500}>
-                <Editor
-                  theme="vs-dark"
-                  language="c"
-                  className="message"
-                  value={quizQuestions[0]}
-                  onChange={handleChange}
-                />
-              </Stack>
-
-              <ArrowForwardIosIcon
-                onMouseEnter={projectEnter}
-                onMouseLeave={projectLeave}
-                sx={[
-                  { marginLeft: "150px" },
-                  { scale: "2.5" },
-                  { marginTop: "230px" },
-                  { backgroundColor: "#fff" },
-                  { borderRadius: "100%" },
-                  { padding: "5px" },
-                ]}
-              ></ArrowForwardIosIcon>
+              </Box>
             </Stack>
 
-            <div
-              className="contact"
-              onMouseEnter={contactEnter}
-              onMouseLeave={contactLeave}
-            >
-              <SideDrawer colorCode={color} code={message}></SideDrawer>
-            </div>
+            <Stack className="code-editor-body" gap={5} marginTop="75px">
+              <Stack width={"100vw"} direction={"row"} justifyContent="center">
+                <Box onClick={prev}>
+                  <ArrowBackIosNewIcon
+                    onMouseEnter={projectEnter}
+                    onMouseLeave={projectLeave}
+                    sx={[
+                      { marginRight: "150px" },
+                      { scale: "2.5" },
+                      { marginTop: "230px" },
+                      { backgroundColor: "#fff" },
+                      { borderRadius: "100%" },
+                      { padding: "5px" },
+                    ]}
+                  ></ArrowBackIosNewIcon>
+                </Box>
+
+                <Stack className="code-editor" width={1000} height={500}>
+                  <Editor
+                    theme="vs-dark"
+                    language="c"
+                    className="message"
+                    value={content}
+                    onChange={handleChange}
+                  />
+                </Stack>
+
+                <Box onClick={next}>
+                  <ArrowForwardIosIcon
+                    onMouseEnter={projectEnter}
+                    onMouseLeave={projectLeave}
+                    sx={[
+                      { marginLeft: "150px" },
+                      { scale: "2.5" },
+                      { marginTop: "230px" },
+                      { backgroundColor: "#fff" },
+                      { borderRadius: "100%" },
+                      { padding: "5px" },
+                    ]}
+                  ></ArrowForwardIosIcon>
+                </Box>
+              </Stack>
+
+              <div
+                className="contact"
+                onMouseEnter={contactEnter}
+                onMouseLeave={contactLeave}
+              >
+                <SideDrawer colorCode={color} code={message}></SideDrawer>
+              </div>
+            </Stack>
           </Stack>
-        </Stack>
-      </div>
+        </div>
+      )}
     </AnimatedPage2>
   );
 }
