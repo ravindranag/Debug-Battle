@@ -214,33 +214,27 @@ export default function CodeEditor() {
           <span className="cursorText">{cursorText}</span>
         </motion.div> */}
           <Stack justifyContent={"center"}>
-            <Stack className="Question header" width="100vw" height="70px">
-              <Box
-                sx={[
-                  {
-                    width: "100vw",
-                  },
-                  { height: "90px" },
-                ]}
-                className="hv-box"
-              >
+            <Stack className="Question header" width="100%" height="70px">
+              <Box sx={[{ height: "90px" }]} className="hv-box">
                 <Stack
                   direction="row"
                   sx={[
-                    {
-                      width: "100vw",
-                    },
+                    // {
+                    //   width: "100vw",
+                    // },
                     { height: "90px" },
                   ]}
                   className="hv-box"
                 >
                   <Stack
                     direction="row"
+                    width={"100%"}
                     sx={[
                       { height: "90px" },
                       {
                         backgroundImage: grad,
                       },
+
                       // ,{
                       //   color:color
                       // }

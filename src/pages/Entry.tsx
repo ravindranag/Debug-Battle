@@ -48,16 +48,15 @@ export default function Entry() {
 
   const sendData = () => {
     axios.post("http://localhost:5000/auth", {
-      username1: name,
-      regdno1: reg,
-      branch1: branch,
-      username2: name,
-      regdno2: reg,
-      branch2: branch,
+      username: name,
+      regdno: reg,
+      branch: branch,
     });
   };
   const moveIn = () => {
     sendData();
+    localStorage.setItem("username", name);
+
     navigate("/info", {
       state: {
         name: name,
@@ -199,6 +198,7 @@ export default function Entry() {
                 <TextField
                   required
                   onChange={nameChange}
+                  value={name}
                   id="Name"
                   label="Name"
                   sx={{ width: "300px" }}

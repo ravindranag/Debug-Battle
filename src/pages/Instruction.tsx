@@ -11,6 +11,7 @@ import rules from "../components/rules";
 import { Paper } from "@mui/material";
 import useCursorStore from "../utils/store/useCursorStore";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function Instruction(name) {
   const navigate = useNavigate();

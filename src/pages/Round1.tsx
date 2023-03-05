@@ -39,6 +39,9 @@ export default function Round1(props) {
     setCursorContent(false);
   }, []);
 
+  const { state } = useLocation();
+  const name = state.name;
+
   const moveIn = () => {
     navigate("/thank");
   };
@@ -133,6 +136,12 @@ export default function Round1(props) {
   const [done, setDone] = useState(true);
 
   const next = () => {
+    // let x = parseInt(localStorage.getItem("attempt") || 0) ;
+    // console.log("value of attempt:"+x)
+    // x=0;
+    var p = 1;
+    // localStorage.setItem("attempt",x.toString());
+    localStorage.setItem("toggle", p.toString());
     setNo((i) => i + 1);
     setContent(quizQuestions[quesNo]);
 
@@ -238,7 +247,7 @@ export default function Round1(props) {
                 <SideDrawer
                   colorCode={"#8533ff"}
                   code={message}
-                  userName={props.name}
+                  userName={name}
                   onHoverCursorVariant="spider"
                 ></SideDrawer>
               </div>

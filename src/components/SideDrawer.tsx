@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import axios from "axios";
 import useCursorStore from "../utils/store/useCursorStore";
+import { useLocation } from "react-router-dom";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -22,6 +23,16 @@ export default function SideDrawer(props) {
   const [setCursorContent] = useCursorStore((state) => [
     state.setCursorContent,
   ]);
+  const [count, setCount] = useState(0);
+  const [key, setKey] = useState(1);
+
+  var p = Number(localStorage.getItem("toggle"));
+  if (p == 1) {
+    console.log("current value-" + p);
+    var x = 0;
+    localStorage.setItem("var", x.toString());
+    setAttempt(0);
+  }
 
   const checkStatus = async (token) => {
     const options = {
@@ -30,7 +41,7 @@ export default function SideDrawer(props) {
       params: { base64_encoded: "true", fields: "*" },
       headers: {
         "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e",
+        "X-RapidAPI-Key": rh,
       },
     };
     try {
@@ -47,10 +58,10 @@ export default function SideDrawer(props) {
       } else {
         console.log("response.data", response.data.status);
 
-        if (response.data.status.id === 3) setScore(score + 5);
+        if (response.data.status.id === 3) setScore((score) => score + 5);
         else {
-          setPenality(penality + 2);
-          setScore(score - 2);
+          setPenality((penality) => penality - 2);
+          setScore((score) => score - 2);
         }
 
         return;
@@ -60,10 +71,12 @@ export default function SideDrawer(props) {
     }
   };
 
-  const [rh, setRh] = useState("");
+  const [rh, setRh] = useState(
+    "a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e"
+  );
 
-  const newOne = () => {
-    switch (new Date().getDay()) {
+  const newOne = (k) => {
+    switch (k) {
       case 1:
         {
           setRh("7415646ae7msh37f791037366780p1132e2jsna7ba58f2266b");
@@ -73,9 +86,11 @@ export default function SideDrawer(props) {
         setRh("ed67a98a33mshad1b6fdbf4be75cp154094jsnfac461e9aa5a");
         break;
       case 3:
-        setRh("a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e");
+        setRh("feccccf95cmshe9988a3d5b027c9p114069jsncbd641030485");
         break;
     }
+
+    console.log(rh);
   };
 
   const handleCompile = () => {
@@ -96,15 +111,16 @@ export default function SideDrawer(props) {
         "content-type": "application/json",
         "Content-Type": "application/json",
         "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": "a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e",
+        "X-RapidAPI-Key": rh,
       },
       data: formData,
     };
 
+    console.log();
+
     axios
       .request(options)
       .then(function (response) {
-        console.log("res.data", response.data);
         const token = response.data.token;
         checkStatus(token);
       })
@@ -118,13 +134,27 @@ export default function SideDrawer(props) {
   const sendCode = () => {
     setAttempt(attempt + 1);
 
-    if (attempt > 3) return;
+    if (count > 2) {
+      setKey((key) => key + 1);
+      newOne(key);
+      console.log("yes");
+    }
 
-    handleCompile();
+    if (attempt > 1) {
+      console.log("attemtps over");
+      return;
+    } else {
+      handleCompile();
+      setCount((count) => count + 1);
+    }
 
-    axios.post("https://localhost:5000/getCode", {
-      username: props.userName,
-      code: props.code,
+    const x = localStorage.getItem("username");
+    console.log(x);
+
+    localStorage.setItem("attempt", attempt.toString());
+    axios.post("http://localhost:5000/getCode", {
+      username: x,
+      code: score,
     });
   };
 
