@@ -7,7 +7,7 @@ import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
 import { CssBaseline } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
-import EntryR1 from "./pages/EntryR1";
+import EntryR1 from "./pages/EntryR2";
 import Instruction from "./pages/Instruction";
 import Round1 from "./pages/Round1";
 import ExitModal from "./components/ExitModal";

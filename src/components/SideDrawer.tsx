@@ -4,9 +4,6 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import { Typography } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { Stack } from "@mui/material";
@@ -68,10 +65,10 @@ export default function SideDrawer(props) {
           setRh("7415646ae7msh37f791037366780p1132e2jsna7ba58f2266b");
         }
         break;
-      case 4:
+      case 2:
         setRh("ed67a98a33mshad1b6fdbf4be75cp154094jsnfac461e9aa5a");
         break;
-      case 5:
+      case 3:
         setRh("a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e");
         break;
     }
@@ -117,7 +114,14 @@ export default function SideDrawer(props) {
   const sendCode = () => {
     setAttempt(attempt + 1);
 
+    if (attempt > 3) return;
+
     handleCompile();
+
+    axios.post("https://localhost:5000/getCode", {
+      username: props.userName,
+      code: props.code,
+    });
   };
 
   const [Variant, setCursorVariant] = useState("default");

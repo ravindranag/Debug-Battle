@@ -143,7 +143,7 @@ export default function CodeEditor() {
     setHammer(!hammer);
   }
 
-  const Completionist = () => <span className="end">You are good to go!</span>;
+  const Completionist = () => <span className="end">Times up!!!</span>;
 
   type Props = {
     minutes: number;
@@ -213,7 +213,7 @@ export default function CodeEditor() {
           {hammer && <img src={"hammer.png"} alt="shirt" />}
           <span className="cursorText">{cursorText}</span>
         </motion.div> */}
-          <Stack justifyContent={"center"} alignItems="center">
+          <Stack justifyContent={"center"}>
             <Stack className="Question header" width="100vw" height="70px">
               <Box
                 sx={[
