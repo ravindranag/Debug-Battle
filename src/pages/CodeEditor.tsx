@@ -22,6 +22,7 @@ import ParticleBackground from "../particle";
 import useCursorStore from "../utils/store/useCursorStore";
 import axios from "axios";
 import useRoundTwoStore from "../utils/store/useRoundTwo";
+import { Alert } from "@mui/material";
 // import type { Container, Engine } from "tsparticles-engine";
 // import { loadFull } from "tsparticles"
 
@@ -256,7 +257,7 @@ export default function CodeEditor() {
                       justifyContent={"center"}
                       alignItems="end"
                     >
-                      <div className="project">
+                      <Stack alignItems="end">
                         <Typography
                           fontSize={35}
                           fontWeight={700}
@@ -264,7 +265,10 @@ export default function CodeEditor() {
                         >
                           {Type} team
                         </Typography>
-                      </div>
+                        {/* <Typography>
+							Setup a buggy code for the Hero Team and Hero Team will try to solve it. 
+						</Typography> */}
+                      </Stack>
                     </Stack>
                   </Stack>
                 </Stack>
@@ -272,7 +276,12 @@ export default function CodeEditor() {
             </Stack>
 
             <Stack className="code-editor-body" gap={5} marginTop="75px">
-              <Stack width={"100vw"} direction={"row"} justifyContent="center">
+              <Stack
+                width={"100vw"}
+                justifyContent="center"
+                alignItems="center"
+                gap="12px"
+              >
                 {/* <Box onClick={prev}>
                   <ArrowBackIosNewIcon
                     onMouseEnter={projectEnter}
@@ -287,6 +296,10 @@ export default function CodeEditor() {
                     ]}
                   ></ArrowBackIosNewIcon>
                 </Box> */}
+                <Alert severity="info">
+                  Villain Team sets up a buggy code for the Hero Team and the
+                  Hero Team will try to solve it.
+                </Alert>
 
                 <Stack className="code-editor" width={1000} height={500}>
                   <Editor

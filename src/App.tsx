@@ -53,7 +53,7 @@ function App() {
             <Route path="/Select" element={<Welcome />} />
             <Route path="/Editor" element={<Editor />} />
             <Route path="/Entry" element={<Entry />} />
-            <Route path="/EntryR1" element={<EntryR1 />} />
+            <Route path="/round2" element={<EntryR1 />} />
             <Route path="/round1" element={<Round1 />} />
             <Route path="/thank" element={<ExitModal />} />
           </Routes>
