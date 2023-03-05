@@ -13,7 +13,7 @@ import { useState } from "react";
 import axios from "axios";
 import useCursorStore from "../utils/store/useCursorStore";
 import { useLocation } from "react-router-dom";
-import useSubmissionStore from "../utils/store/useSubmissionStore";
+import useSubmissionStore, { key } from "../utils/store/useSubmissionStore";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -33,6 +33,7 @@ export default function SideDrawer(props) {
     penalty,
     setScore,
     setPenalty,
+    questionNo,
   ] = useSubmissionStore((state) => [
     state.attempts,
     state.currentKey,
@@ -42,6 +43,7 @@ export default function SideDrawer(props) {
     state.penalty,
     state.setScore,
     state.setPenalty,
+    state.questionNo,
   ]);
 
   const checkStatus = async (token) => {
@@ -51,7 +53,7 @@ export default function SideDrawer(props) {
       params: { base64_encoded: "true", fields: "*" },
       headers: {
         "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": rh,
+        "X-RapidAPI-Key": key[questionNo],
       },
     };
     try {
@@ -81,10 +83,6 @@ export default function SideDrawer(props) {
     }
   };
 
-  const [rh, setRh] = useState(
-    "a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e"
-  );
-
   const handleCompile = () => {
     const code: string = props.code;
 
@@ -103,7 +101,7 @@ export default function SideDrawer(props) {
         "content-type": "application/json",
         "Content-Type": "application/json",
         "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
-        "X-RapidAPI-Key": rh,
+        "X-RapidAPI-Key": key[questionNo],
       },
       data: formData,
     };
