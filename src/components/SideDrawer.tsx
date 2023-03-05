@@ -4,7 +4,7 @@ import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import { Avatar } from "@mui/material";
 import { Stack } from "@mui/material";
 import useMouse from "@react-hook/mouse-position";
@@ -47,6 +47,7 @@ export default function SideDrawer(props) {
   ]);
 
   const checkStatus = async (token) => {
+    setIsLoading((v) => true);
     const options = {
       method: "GET",
       url: "https://judge0-ce.p.rapidapi.com/submissions" + "/" + token,
@@ -80,10 +81,13 @@ export default function SideDrawer(props) {
       }
     } catch (err) {
       console.log("err", err);
+    } finally {
+      setIsLoading((v) => false);
     }
   };
 
   const handleCompile = () => {
+    setIsLoading((v) => true);
     const code: string = props.code;
 
     console.log(props.code);
@@ -118,6 +122,9 @@ export default function SideDrawer(props) {
         let error = err.response ? err.response.data : err;
 
         console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -300,12 +307,13 @@ export default function SideDrawer(props) {
               setCursorContent(true, props.onHoverCursorVariant)
             }
             onMouseLeave={() => setCursorContent(false)}
+            disabled={isLoading}
           >
             <Typography
               padding={1}
               sx={[{ color: "#000000" }, { fontSize: 15 }, { fontWeight: 900 }]}
             >
-              Ready to test
+              {isLoading ? "Running..." : "Ready to Test"}
             </Typography>
           </Button>
           <Drawer
