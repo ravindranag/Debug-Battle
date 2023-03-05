@@ -60,7 +60,7 @@ export default function Round1(props) {
     leaveDelay: 100,
   });
 
-  const [message, setMessage] = useState(quizQuestions[0]);
+  const [message, setMessage] = useState();
   const handleChange = (value) => {
     setMessage(value);
 
@@ -71,7 +71,7 @@ export default function Round1(props) {
     setQuestionNumber(1);
     resetAttempts();
 
-    if (questionNo == 5) setIsCompleted((v) => true);
+    if (questionNo == 10) setIsCompleted((v) => true);
   };
 
   return (
