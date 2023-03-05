@@ -37,7 +37,7 @@ export const key = [
 
 const useSubmissionStore = create<SubmissionStore>((set, get) => ({
   attempts: 0,
-  questionNo: 5,
+  questionNo: 0,
   currentKey: 0,
   score: 0,
   penalty: 0,
