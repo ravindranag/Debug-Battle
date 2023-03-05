@@ -159,7 +159,7 @@ export default function EntryR1() {
   return (
     <AnimatedPage>
       <div ref={ref}>
-        <motion.div
+        {/* <motion.div
           variants={variants}
           className="circle"
           animate={Variant}
@@ -186,7 +186,7 @@ export default function EntryR1() {
           {type && (
             <img style={{ paddingLeft: "140px" }} src={imgSrc} alt="shirt" />
           )}
-        </motion.div>
+        </motion.div> */}
 
         <Box sx={{ border: "10" }}>
           <Stack justifyContent={"center"} alignItems="center" height={"100vh"}>

@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import AnimatedPage from "../components/AnimatedPage";
 import rules from "../components/rules";
 import { Paper } from "@mui/material";
+import useCursorStore from "../utils/store/useCursorStore";
 
 export default function Instruction(name) {
   const navigate = useNavigate();
@@ -17,6 +18,9 @@ export default function Instruction(name) {
   const [imgSrc, setImgSrc] = useState("");
   const [icon, setIcon] = useState(false);
   const [cursorText, setCursorText] = useState("");
+  const [setHoveringState] = useCursorStore((state) => [
+    state.setHoveringState,
+  ]);
 
   const ref = React.useRef(null);
   const mouse = useMouse(ref, {
@@ -87,7 +91,7 @@ export default function Instruction(name) {
 
   return (
     <div className="instruction" ref={ref}>
-      <motion.div
+      {/* <motion.div
         variants={variants}
         className="circle"
         animate={Variant}
@@ -97,19 +101,20 @@ export default function Instruction(name) {
           width: "30px",
           height: "30px",
         }}
-      ></motion.div>
+      ></motion.div> */}
       <Stack>
         <Typography
-          onMouseEnter={textEnter}
-          onMouseLeave={textLeave}
+          onMouseEnter={() => setHoveringState(true, "#fff")}
+          onMouseLeave={() => setHoveringState(false)}
           variant="h4"
+          component="span"
           sx={[{ fontWeight: "bold" }, { color: "white" }]}
         >
           General Instructions
         </Typography>
         <Box
           className="glass-material"
-          height="85vh"
+          //   height="85vh"
           margin={"5px"}
           marginX={"100px"}
         >
@@ -123,8 +128,8 @@ export default function Instruction(name) {
               ]}
             >
               <Typography
-                onMouseEnter={textEnter}
-                onMouseLeave={textLeave}
+                onMouseEnter={() => setHoveringState(true, "#fff")}
+                onMouseLeave={() => setHoveringState(false)}
                 variant="h5"
                 sx={{ fontWeight: "bold" }}
               >
@@ -133,8 +138,11 @@ export default function Instruction(name) {
             </Paper>
           ))}
           <Button
+            variant="contained"
             onClick={moveIn}
-            sx={[{ backgroundColor: "#009900" }, { color: "#FFF" }]}
+            sx={[{ marginTop: "20px" }, { color: "#FFF" }]}
+            onMouseEnter={() => setHoveringState(true, "#009900")}
+            onMouseLeave={() => setHoveringState(false)}
           >
             next
           </Button>

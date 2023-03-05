@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, createMemoryRouter } from "react-router-dom";
 import Editor from "./pages/CodeEditor";
 import Entry from "./pages/Entry";
 import Welcome from "./pages/Welcome";
@@ -11,13 +11,21 @@ import EntryR1 from "./pages/EntryR2";
 import Instruction from "./pages/Instruction";
 import Round1 from "./pages/Round1";
 import ExitModal from "./components/ExitModal";
+import Cursor from "./components/Cursor";
+import { createMemoryHistory } from "history";
+import { useEffect } from "react";
 
 function App() {
+  const history = createMemoryHistory();
   const theme = createTheme({
     typography: {
       fontFamily: "Rajdhani",
     },
     palette: {
+      primary: {
+        main: "#009900",
+        dark: "#009900",
+      },
       secondary: {
         light: "#ff0000",
         main: "#ff0000",
@@ -25,8 +33,17 @@ function App() {
     },
   });
 
+  useEffect(() => {
+    const unlisten = history.listen(({ action, location }) => {
+      console.log("route changed");
+    });
+
+    return unlisten;
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
+      <Cursor />
       <CssBaseline enableColorScheme />
       <div className="App">
         <AnimatePresence>

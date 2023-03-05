@@ -19,6 +19,7 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ExitModal from "../components/ExitModal";
 import ParticleBackground from "../particle";
+import useCursorStore from "../utils/store/useCursorStore";
 // import type { Container, Engine } from "tsparticles-engine";
 // import { loadFull } from "tsparticles"
 
@@ -28,8 +29,13 @@ export default function CodeEditor() {
   const [hammer, setHammer] = useState(false);
   const [isHovering, setHover] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [setCursorContent] = useCursorStore((state) => [
+    state.setCursorContent,
+  ]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setCursorContent(false);
+  }, []);
 
   const { state } = useLocation();
   const { Type, color, grad, prop1, prop2 } = state;
@@ -135,7 +141,7 @@ export default function CodeEditor() {
     setHammer(!hammer);
   }
 
-  const Completionist = () => <span className="end">You are good to go!</span>;
+  const Completionist = () => <span className="end">Times up!!!</span>;
 
   type Props = {
     minutes: number;
@@ -189,23 +195,23 @@ export default function CodeEditor() {
           {/* <Particles id="tsparticles" url="http://foo.bar/particles.json"  /> */}
           {/* <div className="particle">
       <ParticleBackground></ParticleBackground>
-    </div> */}
-          <motion.div
-            variants={variants}
-            className="circle"
-            animate={Variant}
-            transition={spring}
-            style={{
-              mixBlendMode: isHovering ? "difference" : "normal",
-              width: "30px",
-              height: "30px",
-              backgroundColor: "#000",
-            }}
-          >
-            {hammer && <img src={"hammer.png"} alt="shirt" />}
-            <span className="cursorText">{cursorText}</span>
-          </motion.div>
-          <Stack justifyContent={"center"} alignItems="center">
+      </div> */}
+          {/* <motion.div
+          variants={variants}
+          className="circle"
+          animate={Variant}
+          transition={spring}
+          style={{
+            mixBlendMode: isHovering ? "difference" : "normal",
+            width: "30px",
+            height: "30px",
+            backgroundColor: "#000",
+          }}
+        >
+          {hammer && <img src={"hammer.png"} alt="shirt" />}
+          <span className="cursorText">{cursorText}</span>
+        </motion.div> */}
+          <Stack justifyContent={"center"}>
             <Stack className="Question header" width="100vw" height="70px">
               <Box
                 sx={[
@@ -219,90 +225,110 @@ export default function CodeEditor() {
                 <Stack
                   direction="row"
                   sx={[
-                    { height: "90px" },
                     {
-                      backgroundImage: grad,
+                      width: "100vw",
                     },
-                    // ,{
-                    //   color:color
-                    // }
+                    { height: "90px" },
                   ]}
+                  className="hv-box"
                 >
                   <Stack
-                    sx={{ width: 1 / 2 }}
-                    justifyContent={"center"}
-                    alignItems="start"
+                    direction="row"
+                    sx={[
+                      { height: "90px" },
+                      {
+                        backgroundImage: grad,
+                      },
+                      // ,{
+                      //   color:color
+                      // }
+                    ]}
                   >
-                    <Grid container>
-                      {props.map((items) => (
-                        <motion.div
-                          // whileHover={{
-                          //   scale: 1.1,
-                          // }}
-                          whileHover={{ scale: 0.9 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 500,
-                            damping: 10,
-                          }}
-                          whileTap="tap"
-                        >
-                          <Grid padding={"6px"} item>
-                            <ClickAwayListener onClickAway={handleTooltipClose}>
-                              <div>
-                                <Tooltip
-                                  PopperProps={{
-                                    disablePortal: true,
-                                  }}
-                                  onClose={handleTooltipClose}
-                                  open={open}
-                                  disableFocusListener
-                                  disableHoverListener
-                                  disableTouchListener
-                                  title="Player"
-                                >
-                                  <Box onClick={handleTooltipOpen}>
-                                    {
-                                      <Avatar
-                                        className="type-icon"
-                                        alt=""
-                                        src={items}
-                                        sx={{ width: 56, height: 56 }}
-                                      />
-                                    }
-                                  </Box>
-                                </Tooltip>
-                              </div>
-                            </ClickAwayListener>
-                          </Grid>
-                        </motion.div>
-                      ))}
-                    </Grid>
-                  </Stack>
-                  <Stack
-                    sx={{ width: 1 / 2 }}
-                    justifyContent={"center"}
-                    alignItems="center"
-                  >
-                    <Countdown date={Date.now() + 60000} renderer={renderer} />
-                    {/* 
-                  <Circle></Circle> */}
-                  </Stack>
-
-                  <Stack
-                    sx={{ width: 1 / 2 }}
-                    justifyContent={"center"}
-                    alignItems="end"
-                  >
-                    <div
-                      className="project"
-                      onMouseEnter={projectEnter}
-                      onMouseLeave={projectLeave}
+                    <Stack
+                      sx={{ width: 1 / 2 }}
+                      justifyContent={"center"}
+                      alignItems="start"
                     >
-                      <Typography fontSize={35} fontWeight={700} paddingX={20}>
-                        {Type} team
-                      </Typography>
-                    </div>
+                      <Grid container>
+                        {props.map((items) => (
+                          <motion.div
+                            // whileHover={{
+                            //   scale: 1.1,
+                            // }}
+                            whileHover={{ scale: 0.9 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 500,
+                              damping: 10,
+                            }}
+                            whileTap="tap"
+                          >
+                            <Grid padding={"6px"} item>
+                              <ClickAwayListener
+                                onClickAway={handleTooltipClose}
+                              >
+                                <div>
+                                  <Tooltip
+                                    PopperProps={{
+                                      disablePortal: true,
+                                    }}
+                                    onClose={handleTooltipClose}
+                                    open={open}
+                                    disableFocusListener
+                                    disableHoverListener
+                                    disableTouchListener
+                                    title="Player"
+                                  >
+                                    <Box onClick={handleTooltipOpen}>
+                                      {
+                                        <Avatar
+                                          className="type-icon"
+                                          alt=""
+                                          src={items}
+                                          sx={{ width: 56, height: 56 }}
+                                        />
+                                      }
+                                    </Box>
+                                  </Tooltip>
+                                </div>
+                              </ClickAwayListener>
+                            </Grid>
+                          </motion.div>
+                        ))}
+                      </Grid>
+                    </Stack>
+                    <Stack
+                      sx={{ width: 1 / 2 }}
+                      justifyContent={"center"}
+                      alignItems="center"
+                    >
+                      <Countdown
+                        date={Date.now() + 60000}
+                        renderer={renderer}
+                      />
+                      {/* 
+                  <Circle></Circle> */}
+                    </Stack>
+
+                    <Stack
+                      sx={{ width: 1 / 2 }}
+                      justifyContent={"center"}
+                      alignItems="end"
+                    >
+                      <div
+                        className="project"
+                        onMouseEnter={projectEnter}
+                        onMouseLeave={projectLeave}
+                      >
+                        <Typography
+                          fontSize={35}
+                          fontWeight={700}
+                          paddingX={20}
+                        >
+                          {Type} team
+                        </Typography>
+                      </div>
+                    </Stack>
                   </Stack>
                 </Stack>
               </Box>
