@@ -11,6 +11,7 @@ import useMouse from "@react-hook/mouse-position";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import axios from "axios";
+import useCursorStore from "../utils/store/useCursorStore";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -18,6 +19,9 @@ export default function SideDrawer(props) {
   const [attempt, setAttempt] = useState(0);
   const [penality, setPenality] = useState(0);
   const [score, setScore] = useState(0);
+  const [setCursorContent] = useCursorStore((state) => [
+    state.setCursorContent,
+  ]);
 
   const checkStatus = async (token) => {
     const options = {
@@ -201,7 +205,7 @@ export default function SideDrawer(props) {
 
   const list = (anchor: Anchor) => (
     <div ref={ref}>
-      <motion.div
+      {/* <motion.div
         variants={variants}
         className="circle"
         animate={Variant}
@@ -211,9 +215,9 @@ export default function SideDrawer(props) {
           width: "30px",
           height: "30px",
         }}
-      >
-        {/* {hammer && <img src={"hammer.png"} alt="shirt" />} */}
-      </motion.div>
+      > */}
+      {/* {hammer && <img src={"hammer.png"} alt="shirt" />} */}
+      {/* </motion.div> */}
 
       <Box
         sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
@@ -293,6 +297,10 @@ export default function SideDrawer(props) {
               { ":hover": { background: "#1a75ff" } },
             ]}
             onClick={toggleDrawer(anchor, true)}
+            onMouseEnter={() =>
+              setCursorContent(true, props.onHoverCursorVariant)
+            }
+            onMouseLeave={() => setCursorContent(false)}
           >
             <Typography
               padding={1}

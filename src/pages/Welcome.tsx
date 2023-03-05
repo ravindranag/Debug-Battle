@@ -27,6 +27,7 @@ export default function Welcome() {
 
   useEffect(() => {
     setHoveringState(false);
+    setCursorContent(false);
   }, []);
 
   function getRandomItem(arr) {

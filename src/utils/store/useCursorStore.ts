@@ -9,6 +9,18 @@ const contentList: Record<string, CursorContent> = {
     text: "Time to destroy☠️",
     img: "redskull.png",
   },
+  hammer: {
+    text: "",
+    img: "hammer.png",
+  },
+  spider: {
+    text: "",
+    img: "spider.png",
+  },
+  groot: {
+    text: "",
+    img: "groot.png",
+  },
 };
 
 type CursorContent = {

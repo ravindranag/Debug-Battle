@@ -15,6 +15,8 @@ import AnimatedPage from "../components/AnimatedPage";
 import { Box } from "@mui/material";
 import axios from "axios";
 import { Divider } from "@mui/material";
+import useCursorStore from "../utils/store/useCursorStore";
+import { useEffect } from "react";
 
 export default function EntryR1() {
   const [branch, setBranch] = React.useState("");
@@ -22,6 +24,15 @@ export default function EntryR1() {
   const [name, setName] = React.useState("");
   const [type, setType] = React.useState(false);
   const [reg, setReg] = React.useState("");
+  const [setHoveringState, setCursorContent] = useCursorStore((state) => [
+    state.setHoveringState,
+    state.setCursorContent,
+  ]);
+
+  useEffect(() => {
+    setHoveringState(false);
+    setCursorContent(false);
+  }, []);
   const [name2, setName2] = React.useState("");
   const [type2, setType2] = React.useState(false);
   const [reg2, setReg2] = React.useState("");
@@ -191,8 +202,8 @@ export default function EntryR1() {
         <Box sx={{ border: "10" }}>
           <Stack justifyContent={"center"} alignItems="center" height={"100vh"}>
             <Typography
-              onMouseEnter={textEnter}
-              onMouseLeave={textLeave}
+              onMouseEnter={() => setHoveringState(true, "#fff")}
+              onMouseLeave={() => setHoveringState(false)}
               fontFamily={"Orbitron"}
               fontSize={"50px"}
               marginBottom="70px"
@@ -272,8 +283,8 @@ export default function EntryR1() {
               <Button
                 onClick={moveIn}
                 variant="contained"
-                onMouseEnter={buttonEnter}
-                onMouseLeave={buttonLeave}
+                onMouseEnter={() => setCursorContent(true, "groot")}
+                onMouseLeave={() => setCursorContent(false)}
                 sx={{ marginTop: "30px" }}
               >
                 Enter
