@@ -7,6 +7,7 @@ import { useState, useRef } from "react";
 import useMouse from "@react-hook/mouse-position";
 import useCursorStore from "../utils/store/useCursorStore";
 import { useEffect } from "react";
+import useSubmissionStore from "../utils/store/useSubmissionStore";
 
 const style = {
   position: "absolute" as "absolute",
@@ -28,6 +29,7 @@ export default function ExitModal() {
     state.setHoveringState,
     state.setCursorContent,
   ]);
+  const [] = useSubmissionStore((state) => [state.score]);
 
   useEffect(() => {
     setHoveringState(false);

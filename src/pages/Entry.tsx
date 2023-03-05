@@ -211,7 +211,13 @@ export default function Entry() {
                   onChange={regChange}
                   sx={{ width: "300px" }}
                 />
-                <FormControl fullWidth required>
+                <TextField
+                  required
+                  id="branch"
+                  label="Branch"
+                  sx={{ width: "300px" }}
+                />
+                {/* <FormControl fullWidth required>
                   <InputLabel id="Branch-Select">Branch</InputLabel>
                   <Select
                     labelId="Branch"
@@ -224,7 +230,7 @@ export default function Entry() {
                       <MenuItem value={items}>{items}</MenuItem>
                     ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
               </Stack>
               <Button
                 onClick={moveIn}

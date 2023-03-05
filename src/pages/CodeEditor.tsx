@@ -231,7 +231,7 @@ export default function CodeEditor() {
                       justifyContent={"center"}
                       alignItems="center"
                     >
-                      <Countdown
+                      {/* <Countdown
                         date={Date.now() + 60000}
                         renderer={({ minutes, seconds, completed }: any) => {
                           if (completed) {
@@ -246,7 +246,7 @@ export default function CodeEditor() {
                         }}
                         zeroPadTime={2}
                         // controlled={true}
-                      />
+                      /> */}
                       {/* 
                   <Circle></Circle> */}
                     </Stack>
@@ -320,7 +320,7 @@ export default function CodeEditor() {
                   code={message}
                   onHoverCursorVariant="hammer"
                 ></SideDrawer> */}
-                <Button variant="contained">Submit</Button>
+                {/* <Button variant="contained">Submit</Button> */}
               </div>
             </Stack>
           </Stack>

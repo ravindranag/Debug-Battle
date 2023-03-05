@@ -54,13 +54,7 @@ export default function EntryR1() {
     },
     onSubmit: async (values) => {
       console.log(values);
-      try {
-        const response = axios.post("http://localhost:5000/auth", values);
-        const id = (await response).data;
-        setId(id);
-      } catch (err: any) {
-        console.log(err);
-      }
+      moveIn();
     },
   });
 
@@ -77,7 +71,6 @@ export default function EntryR1() {
     });
   };
   const moveIn = () => {
-    sendData();
     navigate("/Select", {
       state: {
         name: name,
@@ -151,7 +144,7 @@ export default function EntryR1() {
                   onChange={formik.handleChange}
                   sx={{ width: "300px" }}
                 />
-                <FormControl fullWidth>
+                {/* <FormControl fullWidth>
                   <InputLabel id="Branch-Select">Branch</InputLabel>
                   <Select
                     required
@@ -167,7 +160,7 @@ export default function EntryR1() {
                       <MenuItem value={items}>{items}</MenuItem>
                     ))}
                   </Select>
-                </FormControl>
+                </FormControl> */}
 
                 <Divider sx={{ background: "#d1b3ff" }} />
                 {/* for player 2 */}
@@ -189,7 +182,7 @@ export default function EntryR1() {
                   sx={{ width: "300px" }}
                 />
 
-                <FormControl fullWidth>
+                {/* <FormControl fullWidth>
                   <InputLabel id="Branch-Select">Branch</InputLabel>
                   <Select
                     required
@@ -205,15 +198,15 @@ export default function EntryR1() {
                       <MenuItem value={items}>{items}</MenuItem>
                     ))}
                   </Select>
-                </FormControl>
-                <TextField
+                </FormControl> */}
+                {/* <TextField
                   //   required
                   id="villainTeamId"
                   label="villainTeamId"
                   value={formik.values.villainTeamId}
                   onChange={formik.handleChange}
                   sx={{ width: "300px" }}
-                />
+                /> */}
               </Stack>
               <Button
                 onClick={() => formik.handleSubmit()}
