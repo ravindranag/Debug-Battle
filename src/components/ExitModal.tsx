@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import AnimatedPage from "../components/AnimatedPage";
 import { useState, useRef } from "react";
 import useMouse from "@react-hook/mouse-position";
+import useCursorStore from "../utils/store/useCursorStore";
+import { useEffect } from "react";
 
 const style = {
   position: "absolute" as "absolute",
@@ -22,6 +24,15 @@ export default function ExitModal() {
   const [Variant, setCursorVariant] = useState("default");
   const [isHovering, setHover] = useState(false);
   const [modal, setModal] = useState(false);
+  const [setHoveringState, setCursorContent] = useCursorStore((state) => [
+    state.setHoveringState,
+    state.setCursorContent,
+  ]);
+
+  useEffect(() => {
+    setHoveringState(false);
+    setCursorContent(false);
+  }, []);
 
   const ref = React.useRef(null);
   const mouse = useMouse(ref, {

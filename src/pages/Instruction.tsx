@@ -10,6 +10,7 @@ import AnimatedPage from "../components/AnimatedPage";
 import rules from "../components/rules";
 import { Paper } from "@mui/material";
 import useCursorStore from "../utils/store/useCursorStore";
+import { useEffect } from "react";
 
 export default function Instruction(name) {
   const navigate = useNavigate();
@@ -18,9 +19,15 @@ export default function Instruction(name) {
   const [imgSrc, setImgSrc] = useState("");
   const [icon, setIcon] = useState(false);
   const [cursorText, setCursorText] = useState("");
-  const [setHoveringState] = useCursorStore((state) => [
+  const [setHoveringState, setCursorContent] = useCursorStore((state) => [
     state.setHoveringState,
+    state.setCursorContent,
   ]);
+
+  useEffect(() => {
+    setHoveringState(false);
+    setCursorContent(false);
+  }, []);
 
   const ref = React.useRef(null);
   const mouse = useMouse(ref, {

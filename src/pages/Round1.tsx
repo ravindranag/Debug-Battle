@@ -19,6 +19,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import SideDrawer from "../components/SideDrawer";
 import ExitModal from "../components/ExitModal";
 import { useNavigate } from "react-router-dom";
+import useCursorStore from "../utils/store/useCursorStore";
+import { useEffect } from "react";
 
 export default function Round1() {
   const [content, setContent] = useState(quizQuestions[0]);
@@ -27,6 +29,15 @@ export default function Round1() {
   const [isHovering, setHover] = useState(false);
   const [modal, setModal] = useState(true);
   const navigate = useNavigate();
+  const [setHoveringState, setCursorContent] = useCursorStore((state) => [
+    state.setHoveringState,
+    state.setCursorContent,
+  ]);
+
+  useEffect(() => {
+    setHoveringState(false);
+    setCursorContent(false);
+  }, []);
 
   const moveIn = () => {
     navigate("/thank");

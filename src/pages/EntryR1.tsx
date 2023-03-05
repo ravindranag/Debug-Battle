@@ -15,12 +15,23 @@ import AnimatedPage from "../components/AnimatedPage";
 import { Box } from "@mui/material";
 import axios from "axios";
 import { Divider } from "@mui/material";
+import useCursorStore from "../utils/store/useCursorStore";
+import { useEffect } from "react";
 
 export default function EntryR1() {
   const [branch, setBranch] = React.useState("");
   const [name, setName] = React.useState("");
   const [type, setType] = React.useState(false);
   const [reg, setReg] = React.useState("");
+  const [setHoveringState, setCursorContent] = useCursorStore((state) => [
+    state.setHoveringState,
+    state.setCursorContent,
+  ]);
+
+  useEffect(() => {
+    setHoveringState(false);
+    setCursorContent(false);
+  }, []);
 
   const branches = ["CSE", "EE", "ETC", "MME"];
 

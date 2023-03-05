@@ -29,12 +29,14 @@ export default function CodeEditor() {
   const [hammer, setHammer] = useState(false);
   const [isHovering, setHover] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [setCursorContent] = useCursorStore((state) => [
+  const [setCursorContent, setHoveringState] = useCursorStore((state) => [
     state.setCursorContent,
+    state.setHoveringState,
   ]);
 
   useEffect(() => {
     setCursorContent(false);
+    setHoveringState(false);
   }, []);
 
   const { state } = useLocation();
