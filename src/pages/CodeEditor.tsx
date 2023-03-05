@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Stack } from "@mui/material";
+import { Stack, Button } from "@mui/material";
 import Editor from "@monaco-editor/react";
 import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
@@ -20,23 +20,32 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ExitModal from "../components/ExitModal";
 import ParticleBackground from "../particle";
 import useCursorStore from "../utils/store/useCursorStore";
+import axios from "axios";
+import useRoundTwoStore from "../utils/store/useRoundTwo";
 // import type { Container, Engine } from "tsparticles-engine";
 // import { loadFull } from "tsparticles"
 
 export default function CodeEditor() {
-  const [cursorText, setCursorText] = useState("");
-  const [Variant, setCursorVariant] = useState("default");
-  const [hammer, setHammer] = useState(false);
-  const [isHovering, setHover] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [setCursorContent, setHoveringState] = useCursorStore((state) => [
     state.setCursorContent,
     state.setHoveringState,
   ]);
+  const [id] = useRoundTwoStore((state) => [state.id]);
 
   useEffect(() => {
     setCursorContent(false);
     setHoveringState(false);
+    console.log("villain id", id);
+    axios
+      .get(`http://localhost:5000/code/${id}`)
+      .then((res) => res.data)
+      .then((code) => {
+        setMessage(code);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const { state } = useLocation();
@@ -44,12 +53,6 @@ export default function CodeEditor() {
 
   const props = [prop1, prop2];
 
-  // console.log(prop1)
-
-  // console.log(prop2)
-
-  //  console.log(Type)
-  // console.log(color)
   const handleTooltipClose = () => {
     setOpen(false);
   };
@@ -59,54 +62,6 @@ export default function CodeEditor() {
   };
 
   const ref = React.useRef(null);
-  const mouse = useMouse(ref, {
-    enterDelay: 100,
-    leaveDelay: 100,
-  });
-
-  let mouseXPosition: number = 0;
-  let mouseYPosition: number = 0;
-
-  if (mouse.x !== null) mouseXPosition = mouse.clientX as number;
-
-  if (mouse.y !== null) mouseYPosition = mouse.clientY as number;
-
-  const variants = {
-    default: {
-      opacity: 1,
-      height: 10,
-      width: 10,
-      fontSize: "16px",
-      backgroundColor: "#1e91d6",
-      x: mouseXPosition,
-      y: mouseYPosition,
-      transition: {
-        type: "spring",
-        mass: 0.5,
-      },
-    },
-    project: {
-      opacity: 1,
-      // backgroundColor: "rgba(255, 255, 255, 0.6)",
-      backgroundColor: color,
-      color: "#000",
-      height: 80,
-      width: 80,
-      fontSize: "18px",
-      x: mouseXPosition - 32,
-      y: mouseYPosition - 32,
-    },
-    contact: {
-      opacity: 1,
-      backgroundColor: "rgba(255, 255, 255, 0)",
-      color: "#000",
-      height: 64,
-      width: 64,
-      fontSize: "32px",
-      x: mouseXPosition - 48,
-      y: mouseYPosition - 48,
-    },
-  };
 
   const [message, setMessage] = useState(quizQuestions[0]);
   const handleChange = (value) => {
@@ -120,28 +75,6 @@ export default function CodeEditor() {
     stiffness: 500,
     damping: 28,
   };
-
-  function projectEnter(event: any) {
-    setHover(!isHovering);
-    setCursorVariant("project");
-  }
-
-  function projectLeave(event: any) {
-    setHover(!isHovering);
-    setCursorText("");
-    setCursorVariant("default");
-  }
-
-  function contactEnter(event: any) {
-    setCursorVariant("contact");
-    setHammer(!hammer);
-  }
-
-  function contactLeave(event: any) {
-    setCursorText("");
-    setCursorVariant("default");
-    setHammer(!hammer);
-  }
 
   const Completionist = () => <span className="end">Times up!!!</span>;
 
@@ -300,7 +233,19 @@ export default function CodeEditor() {
                     >
                       <Countdown
                         date={Date.now() + 60000}
-                        renderer={renderer}
+                        renderer={({ minutes, seconds, completed }: any) => {
+                          if (completed) {
+                            return <Completionist />;
+                          } else {
+                            return (
+                              <span className="timer">
+                                {minutes}:{seconds}
+                              </span>
+                            );
+                          }
+                        }}
+                        zeroPadTime={2}
+                        // controlled={true}
                       />
                       {/* 
                   <Circle></Circle> */}
@@ -311,11 +256,7 @@ export default function CodeEditor() {
                       justifyContent={"center"}
                       alignItems="end"
                     >
-                      <div
-                        className="project"
-                        onMouseEnter={projectEnter}
-                        onMouseLeave={projectLeave}
-                      >
+                      <div className="project">
                         <Typography
                           fontSize={35}
                           fontWeight={700}
@@ -332,7 +273,7 @@ export default function CodeEditor() {
 
             <Stack className="code-editor-body" gap={5} marginTop="75px">
               <Stack width={"100vw"} direction={"row"} justifyContent="center">
-                <Box onClick={prev}>
+                {/* <Box onClick={prev}>
                   <ArrowBackIosNewIcon
                     onMouseEnter={projectEnter}
                     onMouseLeave={projectLeave}
@@ -345,7 +286,7 @@ export default function CodeEditor() {
                       { padding: "5px" },
                     ]}
                   ></ArrowBackIosNewIcon>
-                </Box>
+                </Box> */}
 
                 <Stack className="code-editor" width={1000} height={500}>
                   <Editor
@@ -357,7 +298,7 @@ export default function CodeEditor() {
                   />
                 </Stack>
 
-                <Box onClick={next}>
+                {/* <Box onClick={next}>
                   <ArrowForwardIosIcon
                     onMouseEnter={projectEnter}
                     onMouseLeave={projectLeave}
@@ -370,19 +311,16 @@ export default function CodeEditor() {
                       { padding: "5px" },
                     ]}
                   ></ArrowForwardIosIcon>
-                </Box>
+                </Box> */}
               </Stack>
 
-              <div
-                className="contact"
-                onMouseEnter={contactEnter}
-                onMouseLeave={contactLeave}
-              >
-                <SideDrawer
+              <div className="contact">
+                {/* <SideDrawer
                   colorCode={color}
                   code={message}
                   onHoverCursorVariant="hammer"
-                ></SideDrawer>
+                ></SideDrawer> */}
+                <Button variant="contained">Submit</Button>
               </div>
             </Stack>
           </Stack>

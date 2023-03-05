@@ -13,26 +13,36 @@ import { useState } from "react";
 import axios from "axios";
 import useCursorStore from "../utils/store/useCursorStore";
 import { useLocation } from "react-router-dom";
+import useSubmissionStore from "../utils/store/useSubmissionStore";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
 export default function SideDrawer(props) {
-  const [attempt, setAttempt] = useState(0);
-  const [penality, setPenality] = useState(0);
-  const [score, setScore] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [setCursorContent] = useCursorStore((state) => [
     state.setCursorContent,
   ]);
   const [count, setCount] = useState(0);
-  const [key, setKey] = useState(1);
-
-  var p = Number(localStorage.getItem("toggle"));
-  if (p == 1) {
-    console.log("current value-" + p);
-    var x = 0;
-    localStorage.setItem("var", x.toString());
-    setAttempt(0);
-  }
+  //   const [key, setKey] = useState(1);
+  const [
+    attempts,
+    currentKey,
+    setAttempts,
+    setKey,
+    score,
+    penalty,
+    setScore,
+    setPenalty,
+  ] = useSubmissionStore((state) => [
+    state.attempts,
+    state.currentKey,
+    state.setAttempts,
+    state.setKey,
+    state.score,
+    state.penalty,
+    state.setScore,
+    state.setPenalty,
+  ]);
 
   const checkStatus = async (token) => {
     const options = {
@@ -58,10 +68,10 @@ export default function SideDrawer(props) {
       } else {
         console.log("response.data", response.data.status);
 
-        if (response.data.status.id === 3) setScore((score) => score + 5);
+        if (response.data.status.id === 3) setScore(5);
         else {
-          setPenality((penality) => penality - 2);
-          setScore((score) => score - 2);
+          setPenalty(-2);
+          setScore(-2);
         }
 
         return;
@@ -74,24 +84,6 @@ export default function SideDrawer(props) {
   const [rh, setRh] = useState(
     "a433503d44msha1654a7c1bc9587p139ba6jsn5523a56fd55e"
   );
-
-  const newOne = (k) => {
-    switch (k) {
-      case 1:
-        {
-          setRh("7415646ae7msh37f791037366780p1132e2jsna7ba58f2266b");
-        }
-        break;
-      case 2:
-        setRh("ed67a98a33mshad1b6fdbf4be75cp154094jsnfac461e9aa5a");
-        break;
-      case 3:
-        setRh("feccccf95cmshe9988a3d5b027c9p114069jsncbd641030485");
-        break;
-    }
-
-    console.log(rh);
-  };
 
   const handleCompile = () => {
     const code: string = props.code;
@@ -132,26 +124,19 @@ export default function SideDrawer(props) {
   };
 
   const sendCode = () => {
-    setAttempt(attempt + 1);
+    setAttempts(1);
 
-    if (count > 2) {
-      setKey((key) => key + 1);
-      newOne(key);
-      console.log("yes");
-    }
-
-    if (attempt > 1) {
-      console.log("attemtps over");
+    if (attempts > 1) {
+      console.log("attempts over");
+      alert("Attempts over. Please go to the next question.");
       return;
     } else {
       handleCompile();
-      setCount((count) => count + 1);
     }
 
     const x = localStorage.getItem("username");
     console.log(x);
 
-    localStorage.setItem("attempt", attempt.toString());
     axios.post("http://localhost:5000/getCode", {
       username: x,
       code: score,
@@ -196,20 +181,6 @@ export default function SideDrawer(props) {
       x: mouseXPosition - 48,
       y: mouseYPosition - 48,
     },
-  };
-
-  function contactEnter(event: any) {
-    setCursorVariant("contact");
-  }
-
-  function contactLeave(event: any) {
-    setCursorVariant("default");
-  }
-
-  const spring = {
-    type: "spring",
-    stiffness: 500,
-    damping: 28,
   };
 
   const [state, setState] = React.useState({
@@ -270,7 +241,7 @@ export default function SideDrawer(props) {
           </Typography>
 
           <Typography sx={[{ fontSize: "38px" }, { fontWeight: "900" }]}>
-            {attempt}
+            {attempts}
           </Typography>
 
           <Typography sx={[{ fontSize: "26px" }, { fontWeight: "700" }]}>
@@ -286,7 +257,7 @@ export default function SideDrawer(props) {
           </Typography>
 
           <Typography sx={[{ fontSize: "38px" }, { fontWeight: "900" }]}>
-            {penality}
+            {penalty}
           </Typography>
         </Stack>
 

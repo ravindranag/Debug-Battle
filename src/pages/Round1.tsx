@@ -21,18 +21,26 @@ import ExitModal from "../components/ExitModal";
 import { useNavigate } from "react-router-dom";
 import useCursorStore from "../utils/store/useCursorStore";
 import { useEffect } from "react";
+import useSubmissionStore from "../utils/store/useSubmissionStore";
 
 export default function Round1(props) {
   const [content, setContent] = useState(quizQuestions[0]);
   const [Variant, setCursorVariant] = useState("default");
   const [hammer, setHammer] = useState(false);
   const [isHovering, setHover] = useState(false);
-  const [modal, setModal] = useState(true);
+  const [isCompleted, setIsCompleted] = useState(false);
   const navigate = useNavigate();
   const [setHoveringState, setCursorContent] = useCursorStore((state) => [
     state.setHoveringState,
     state.setCursorContent,
   ]);
+  const [attempts, questionNo, setQuestionNumber, resetAttempts] =
+    useSubmissionStore((state) => [
+      state.attempts,
+      state.questionNo,
+      state.setQuestionNumber,
+      state.resetAttempts,
+    ]);
 
   useEffect(() => {
     setHoveringState(false);
@@ -52,50 +60,6 @@ export default function Round1(props) {
     leaveDelay: 100,
   });
 
-  let mouseXPosition: number = 0;
-  let mouseYPosition: number = 0;
-
-  if (mouse.x !== null) mouseXPosition = mouse.clientX as number;
-
-  if (mouse.y !== null) mouseYPosition = mouse.clientY as number;
-
-  const variants = {
-    default: {
-      opacity: 1,
-      height: 10,
-      width: 10,
-      fontSize: "16px",
-      backgroundColor: "#1e91d6",
-      x: mouseXPosition,
-      y: mouseYPosition,
-      transition: {
-        type: "spring",
-        mass: 0.5,
-      },
-    },
-    project: {
-      opacity: 1,
-      // backgroundColor: "rgba(255, 255, 255, 0.6)",
-      backgroundColor: "#FFF",
-      color: "#000",
-      height: 80,
-      width: 80,
-      fontSize: "18px",
-      x: mouseXPosition - 32,
-      y: mouseYPosition - 32,
-    },
-    contact: {
-      opacity: 1,
-      backgroundColor: "rgba(255, 255, 255, 0)",
-      color: "#000",
-      height: 74,
-      width: 74,
-      fontSize: "32px",
-      x: mouseXPosition - 48,
-      y: mouseYPosition - 48,
-    },
-  };
-
   const [message, setMessage] = useState(quizQuestions[0]);
   const handleChange = (value) => {
     setMessage(value);
@@ -103,61 +67,18 @@ export default function Round1(props) {
     console.log(message);
   };
 
-  const spring = {
-    type: "spring",
-    stiffness: 500,
-    damping: 28,
-  };
-
-  function projectEnter(event: any) {
-    setHover(!isHovering);
-    setCursorVariant("project");
-  }
-
-  function projectLeave(event: any) {
-    setHover(!isHovering);
-    setCursorVariant("default");
-  }
-
-  function buttonEnter(event: any) {
-    setCursorVariant("contact");
-    setHammer(!hammer);
-  }
-
-  function buttonLeave(event: any) {
-    setCursorVariant("default");
-    setHammer(!hammer);
-  }
-
-  const cardRef = React.useRef(null);
-  const [cardData, setCardData] = useState(1);
-  const [quesNo, setNo] = useState(0);
-  const [complete, setComplete] = useState(0);
-  const [done, setDone] = useState(true);
-
   const next = () => {
-    // let x = parseInt(localStorage.getItem("attempt") || 0) ;
-    // console.log("value of attempt:"+x)
-    // x=0;
-    var p = 1;
-    // localStorage.setItem("attempt",x.toString());
-    localStorage.setItem("toggle", p.toString());
-    setNo((i) => i + 1);
-    setContent(quizQuestions[quesNo]);
+    setQuestionNumber(1);
+    resetAttempts();
 
-    if (quesNo == 11) setModal(!modal);
-  };
-
-  const prev = () => {
-    setNo((i) => i - 1);
-    setContent(quizQuestions[quesNo]);
+    if (questionNo == 5) setIsCompleted((v) => true);
   };
 
   return (
     <AnimatedPage2>
-      {!modal && <ExitModal></ExitModal>}
+      {isCompleted && <ExitModal />}
 
-      {modal && (
+      {!isCompleted && (
         <div ref={ref} className="round-1">
           {/* <motion.div
             variants={variants}
@@ -195,7 +116,7 @@ export default function Round1(props) {
                     justifyContent="center"
                     margin={"0 auto"}
                   >
-                    <Box onClick={prev}>
+                    {/* <Box onClick={prev}>
                       <ArrowBackIosNewIcon
                         onMouseEnter={() => setHoveringState(true, "#fff")}
                         onMouseLeave={() => setHoveringState(false)}
@@ -208,14 +129,14 @@ export default function Round1(props) {
                           { padding: "5px" },
                         ]}
                       ></ArrowBackIosNewIcon>
-                    </Box>
+                    </Box> */}
 
                     <Stack className="code-editor" width={800} height={450}>
                       <Editor
                         theme="vs-dark"
                         language="c"
                         className="message"
-                        value={content}
+                        value={quizQuestions[questionNo]}
                         onChange={handleChange}
                       />
                     </Stack>
@@ -239,11 +160,7 @@ export default function Round1(props) {
               </Box>
             </Stack>
             <Stack alignItems={"center"} marginTop="30px">
-              <div
-                className="contact"
-                onMouseEnter={buttonEnter}
-                onMouseLeave={buttonLeave}
-              >
+              <div className="contact">
                 <SideDrawer
                   colorCode={"#8533ff"}
                   code={message}

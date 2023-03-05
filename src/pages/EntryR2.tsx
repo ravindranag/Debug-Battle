@@ -17,6 +17,8 @@ import axios from "axios";
 import { Divider } from "@mui/material";
 import useCursorStore from "../utils/store/useCursorStore";
 import { useEffect } from "react";
+import { useFormik } from "formik";
+import useRoundTwoStore from "../utils/store/useRoundTwo";
 
 export default function EntryR1() {
   const [branch, setBranch] = React.useState("");
@@ -28,6 +30,7 @@ export default function EntryR1() {
     state.setHoveringState,
     state.setCursorContent,
   ]);
+  const [id, setId] = useRoundTwoStore((state) => [state.id, state.setId]);
 
   useEffect(() => {
     setHoveringState(false);
@@ -37,31 +40,31 @@ export default function EntryR1() {
   const [type2, setType2] = React.useState(false);
   const [reg2, setReg2] = React.useState("");
 
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      regdno: "",
+      branch: "",
+      username2: "",
+      regdno2: "",
+      branch2: "",
+      type: "",
+      code: "",
+      villainTeamId: "",
+    },
+    onSubmit: async (values) => {
+      console.log(values);
+      try {
+        const response = axios.post("http://localhost:5000/auth", values);
+        const id = (await response).data;
+        setId(id);
+      } catch (err: any) {
+        console.log(err);
+      }
+    },
+  });
+
   const branches = ["CSE", "EE", "ETC", "MME"];
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setBranch(event.target.value as string);
-  };
-
-  const nameChange = (event) => {
-    setName(event.target.value as string);
-  };
-
-  const regChange = (event) => {
-    setReg(event.target.value as string);
-  };
-
-  const handleChange2 = (event: SelectChangeEvent) => {
-    setBranch2(event.target.value as string);
-  };
-
-  const nameChange2 = (event) => {
-    setName2(event.target.value as string);
-  };
-
-  const regChange2 = (event) => {
-    setReg2(event.target.value as string);
-  };
 
   const sendData = () => {
     axios.post("http://localhost:5000/auth", {
@@ -83,89 +86,8 @@ export default function EntryR1() {
   };
 
   const navigate = useNavigate();
-  const [Variant, setCursorVariant] = useState("default");
-  const [isHovering, setHover] = useState(false);
-  const [imgSrc, setImgSrc] = useState("");
-  const [cursorText, setCursorText] = useState("");
 
   const ref = React.useRef(null);
-  const mouse = useMouse(ref, {
-    enterDelay: 100,
-    leaveDelay: 100,
-  });
-
-  let mouseXPosition: number = 0;
-  let mouseYPosition: number = 0;
-
-  if (mouse.x !== null) mouseXPosition = mouse.clientX as number;
-
-  if (mouse.y !== null) mouseYPosition = mouse.clientY as number;
-
-  const variants = {
-    default: {
-      opacity: 1,
-      height: 10,
-      width: 10,
-      fontSize: "16px",
-      backgroundColor: "#1e91d6",
-      x: mouseXPosition,
-      y: mouseYPosition,
-      transition: {
-        type: "spring",
-        mass: 0.5,
-      },
-    },
-    heroTitle: {
-      opacity: 1,
-      // backgroundColor: "rgba(255, 255, 255, 0.6)",
-      backgroundColor: "#fff",
-      color: "#000",
-      height: 80,
-      width: 80,
-      fontSize: "18px",
-      x: mouseXPosition - 32,
-      y: mouseYPosition - 32,
-    },
-    heroguy: {
-      opacity: 1,
-      backgroundColor: "rgba(255, 255, 255, 0)",
-      color: "#000",
-      height: 64,
-      width: 64,
-      fontSize: "32px",
-      x: mouseXPosition - 48,
-      y: mouseYPosition - 48,
-    },
-  };
-
-  function textEnter(event: any) {
-    setHover(!isHovering);
-    setImgSrc("");
-    setCursorVariant("heroTitle");
-  }
-
-  function buttonLeave(event: any) {
-    setImgSrc("");
-    setType(!type);
-    setCursorVariant("default");
-  }
-
-  function buttonEnter(event: any) {
-    setType(!type);
-    setImgSrc("groot.png");
-    setCursorVariant("heroTitle");
-  }
-
-  function textLeave(event: any) {
-    setHover(!isHovering);
-    setCursorVariant("default");
-  }
-
-  const spring = {
-    type: "spring",
-    stiffness: 400,
-    damping: 28,
-  };
 
   return (
     <AnimatedPage>
@@ -215,18 +137,18 @@ export default function EntryR1() {
               <Stack direction={"column"} gap="20px">
                 <TextField
                   required
-                  onChange={nameChange}
-                  id="Name"
-                  value={name}
+                  onChange={formik.handleChange}
+                  id="username"
+                  value={formik.values.username}
                   label="Player 1"
                   sx={{ width: "300px" }}
                 />
                 <TextField
                   required
-                  id="Registration"
+                  id="regdno"
                   label="Registration no. of Player1"
-                  value={reg}
-                  onChange={regChange}
+                  value={formik.values.regdno}
+                  onChange={formik.handleChange}
                   sx={{ width: "300px" }}
                 />
                 <FormControl fullWidth>
@@ -234,10 +156,12 @@ export default function EntryR1() {
                   <Select
                     required
                     labelId="Branch"
-                    id="select"
-                    value={branch}
+                    id="branch"
+                    value={formik.values.branch}
                     label="Branch of Player 1"
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      formik.setFieldValue("branch", e.target.value);
+                    }}
                   >
                     {branches.map((items) => (
                       <MenuItem value={items}>{items}</MenuItem>
@@ -250,38 +174,49 @@ export default function EntryR1() {
 
                 <TextField
                   required
-                  onChange={nameChange2}
-                  id="Name"
-                  value={name2}
+                  onChange={formik.handleChange}
+                  id="username2"
+                  value={formik.values.username2}
                   label="Player 2"
                   sx={{ width: "300px" }}
                 />
                 <TextField
                   required
-                  id="Registration"
+                  id="regdno2"
                   label="Registration no of Player 2"
-                  value={reg2}
-                  onChange={regChange2}
+                  value={formik.values.regdno2}
+                  onChange={formik.handleChange}
                   sx={{ width: "300px" }}
                 />
+
                 <FormControl fullWidth>
                   <InputLabel id="Branch-Select">Branch</InputLabel>
                   <Select
                     required
                     labelId="Branch"
-                    id="select"
-                    value={branch2}
+                    id="branch2"
+                    value={formik.values.branch2}
                     label="Branch of Player 2"
-                    onChange={handleChange2}
+                    onChange={(e) => {
+                      formik.setFieldValue("branch2", e.target.value);
+                    }}
                   >
                     {branches.map((items) => (
                       <MenuItem value={items}>{items}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
+                <TextField
+                  //   required
+                  id="villainTeamId"
+                  label="villainTeamId"
+                  value={formik.values.villainTeamId}
+                  onChange={formik.handleChange}
+                  sx={{ width: "300px" }}
+                />
               </Stack>
               <Button
-                onClick={moveIn}
+                onClick={() => formik.handleSubmit()}
                 variant="contained"
                 onMouseEnter={() => setCursorContent(true, "groot")}
                 onMouseLeave={() => setCursorContent(false)}
