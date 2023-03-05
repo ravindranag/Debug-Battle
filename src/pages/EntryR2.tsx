@@ -202,8 +202,8 @@ export default function EntryR1() {
         <Box sx={{ border: "10" }}>
           <Stack justifyContent={"center"} alignItems="center" height={"100vh"}>
             <Typography
-              onMouseEnter={textEnter}
-              onMouseLeave={textLeave}
+              onMouseEnter={() => setHoveringState(true, "#fff")}
+              onMouseLeave={() => setHoveringState(false)}
               fontFamily={"Orbitron"}
               fontSize={"50px"}
               marginBottom="70px"
@@ -283,8 +283,8 @@ export default function EntryR1() {
               <Button
                 onClick={moveIn}
                 variant="contained"
-                onMouseEnter={buttonEnter}
-                onMouseLeave={buttonLeave}
+                onMouseEnter={() => setCursorContent(true, "groot")}
+                onMouseLeave={() => setCursorContent(false)}
                 sx={{ marginTop: "30px" }}
               >
                 Enter

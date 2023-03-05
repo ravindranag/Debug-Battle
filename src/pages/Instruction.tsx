@@ -135,7 +135,7 @@ export default function Instruction(name) {
               ]}
             >
               <Typography
-                onMouseEnter={() => setHoveringState(true, "#fff")}
+                onMouseEnter={() => setHoveringState(true, "#47d147")}
                 onMouseLeave={() => setHoveringState(false)}
                 variant="h5"
                 sx={{ fontWeight: "bold" }}

@@ -150,7 +150,7 @@ export default function Round1(props) {
 
       {modal && (
         <div ref={ref} className="round-1">
-          <motion.div
+          {/* <motion.div
             variants={variants}
             className="circle"
             animate={Variant}
@@ -162,12 +162,12 @@ export default function Round1(props) {
             }}
           >
             {hammer && <img src={"spider.png"} alt="shirt" />}
-          </motion.div>
+          </motion.div> */}
           <Stack sx={[{ backgroundColor: "#d8d8eb" }, { height: "100vh" }]}>
             <Stack>
               <Typography
-                onMouseEnter={projectEnter}
-                onMouseLeave={projectLeave}
+                onMouseEnter={() => setHoveringState(true, "#fff")}
+                onMouseLeave={() => setHoveringState(false)}
                 sx={{ marginTop: "20px" }}
                 variant="h3"
               >
@@ -188,8 +188,8 @@ export default function Round1(props) {
                   >
                     <Box onClick={prev}>
                       <ArrowBackIosNewIcon
-                        onMouseEnter={projectEnter}
-                        onMouseLeave={projectLeave}
+                        onMouseEnter={() => setHoveringState(true, "#fff")}
+                        onMouseLeave={() => setHoveringState(false)}
                         sx={[
                           { marginRight: "40px" },
                           { scale: "2.5" },
@@ -213,8 +213,8 @@ export default function Round1(props) {
 
                     <Box onClick={next}>
                       <ArrowForwardIosIcon
-                        onMouseEnter={projectEnter}
-                        onMouseLeave={projectLeave}
+                        onMouseEnter={() => setHoveringState(true, "#fff")}
+                        onMouseLeave={() => setHoveringState(false)}
                         sx={[
                           { marginLeft: "40px" },
                           { scale: "2.5" },
@@ -239,6 +239,7 @@ export default function Round1(props) {
                   colorCode={"#8533ff"}
                   code={message}
                   userName={props.name}
+                  onHoverCursorVariant="spider"
                 ></SideDrawer>
               </div>
             </Stack>

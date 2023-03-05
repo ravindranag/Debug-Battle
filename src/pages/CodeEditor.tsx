@@ -384,7 +384,11 @@ export default function CodeEditor() {
                 onMouseEnter={contactEnter}
                 onMouseLeave={contactLeave}
               >
-                <SideDrawer colorCode={color} code={message}></SideDrawer>
+                <SideDrawer
+                  colorCode={color}
+                  code={message}
+                  onHoverCursorVariant="hammer"
+                ></SideDrawer>
               </div>
             </Stack>
           </Stack>

@@ -60,6 +60,7 @@ const Cursor = (): JSX.Element => {
         position: "fixed",
         zIndex: 99999,
         borderRadius: "100px",
+        border: "1px solid",
         pointerEvents: "none",
         mixBlendMode: isHovering ? "difference" : "normal",
       }}

@@ -185,8 +185,8 @@ export default function Entry() {
         <Box sx={{ border: "10" }}>
           <Stack justifyContent={"center"} alignItems="center" height={"100vh"}>
             <Typography
-              onMouseEnter={textEnter}
-              onMouseLeave={textLeave}
+              onMouseEnter={() => setHoveringState(true, "#fff")}
+              onMouseLeave={() => setHoveringState(false)}
               fontFamily={"Orbitron"}
               fontSize={"50px"}
               marginBottom="70px"
